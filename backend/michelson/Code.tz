@@ -1,0 +1,15 @@
+parameter string;
+storage   string;
+code
+  {
+    DUP;        # pair(params, storage).pair(params, storage)
+    CDR;        # storage.pair(params, storage)
+    SWAP;       # pair(params, storage).storage
+    CAR;        # params.storage
+    # Entry point: setPhrase # params.storage
+    # self.data.phrase = params # params.storage
+    SWAP;       # storage.params
+    DROP;       # params
+    NIL operation; # list operation.params
+    PAIR;       # pair(_, params)
+  } # pair(_, params)

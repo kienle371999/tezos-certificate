@@ -1,0 +1,3 @@
+(storage (record 6 (phrase (literal (string "Tezos") 6)))
+messages ((setPhrase ((set (attr (data) "phrase" 9) (params 7) 9))))
+flags())

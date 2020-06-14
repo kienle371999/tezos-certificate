@@ -1,0 +1,21 @@
+{
+  "name": "tezos-certificate",
+  "version": "0.1.0",
+  "description": "Interact with current smart-contract",
+  "main": "tezos-interaction.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node ./gateway/tezos-gateway.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "conseiljs": "^0.4.2",
+    "esm": "^3.2.25",
+    "fs": "0.0.1-security",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.5.7"
+  }
+}
