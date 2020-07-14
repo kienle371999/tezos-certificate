@@ -1,0 +1,10 @@
+{
+    "apps": [
+      {
+        "name": "tezos-backend",
+        "script": "server.js",
+        "cwd": "backend/interact-web",
+        "watch": true
+      }
+    ]
+}

@@ -1,50 +1,102 @@
 import { StoreType,
         TezosParameterFormat,
-        TezosNodeWriter } from 'conseiljs'
+        TezosNodeWriter,
+        TezosWalletUtil } from 'conseiljs'
+import { KeyStoreUtils } from 'conseiljs-softsigner'
 import fetch from 'node-fetch'
 import * as fs from 'fs'
 
+require('dotenv').config({ path: require('find-config')('.env') })
 
-const tezosNode = 'https://tezos-dev.cryptonomic-infra.tech:443'
-const keystore = {
-    publicKey: 'edpkvXW1PW4mCPoz9qgBqEfuBbNSMM2MBX7pUxbDA2uuh7grTby4GF',
-    privateKey: 'edskS81rrkaDht2w9sfR8fxhQHcHg15vmXHuJhGsqCuF5jGB3jGiXpo2NbGrG6CkkBUbjekxdPX6PwaSxhJBJkpcHYHRPLyXGc',
-    publicKeyHash: 'tz1ZEVp2TWctE8Da26ipgMY314BYDRYY6rQW',
-    seed: '',
-    storeType: StoreType.Fundraiser
-}
+const tezosNode = process.env.TEZOS_NODE
 const storage = '"Tezos Southeat Asia"'
-const RPCEnpoint = 'https://api.carthagenet.tzstats.com/explorer/op/'
+const RPCEnpoint = process.env.RPC_ENDPOINT
 
 
 class TezosGateway {
+
+    public static getInstance() {
+        return new TezosGateway()
+    }
+
+    public async generateKey() {
+        const mnemonic = TezosWalletUtil.generateMnemonic()
+        const keyGenerated = await TezosWalletUtil.unlockIdentityWithMnemonic(mnemonic)
+        
+        return keyGenerated
+    }
+
+    public async initAccount() {
+        const faucetAccount = {
+            "mnemonic": [
+              "also",
+              "settle",
+              "host",
+              "sun",
+              "explain",
+              "cool",
+              "autumn",
+              "tilt",
+              "cherry",
+              "extend",
+              "jacket",
+              "decline",
+              "steel",
+              "people",
+              "debris"
+            ],
+            "secret": "9335e071421fbc865a2e413aa3b13cfcfc0d9a01",
+            "pkh": "tz1LBLgFQczUrd1CAvRagKzNY8u2N36LZNSK",
+            "password": "CI3IbeOVfo",
+            "email": "okhrslvc.ygqpyaph@tezos.example.org"
+        }
+        const keyGenerated = await TezosWalletUtil.unlockFundraiserIdentity(faucetAccount.mnemonic.join(' '), 
+        faucetAccount.email, faucetAccount.password, faucetAccount.pkh)
+        console.log("initAccount -> keyGenerated", keyGenerated)
+
+        return { 'key': keyGenerated, 'secret': faucetAccount.secret } 
+    }
+
+    public async activateAccount() {
+        const account = await this.initAccount()
+        console.log(tezosNode)
+        const accountDetail = await TezosNodeWriter.sendIdentityActivationOperation(tezosNode, account.key, account.secret)
+        console.log("activateAccount -> accountDetail", accountDetail)
+
+        return accountDetail
+    }
+
     public async initContract() {
+        const account = await this.initAccount()
         const contract = fs.readFileSync('./michelson/Code.tz', { encoding:'utf8', flag:'r' })
 
         const nodeResult = await TezosNodeWriter.sendContractOriginationOperation(tezosNode, 
-            keystore, 0, undefined, 100000, '', 1000, 100000, contract, storage, TezosParameterFormat.Michelson)
+        account.key, 0, undefined, 100000, '', 1000, 100000, contract, storage, TezosParameterFormat.Michelson)
         const groupid = nodeResult['operationGroupID'].replace(/\"/g, '').replace(/\n/, '') 
         console.log(`Injected operation group id ${groupid}`)
         return groupid
     }
 
     public async getContractHash() {
-        const groupid:string = await this.initContract()
-        const url:string = RPCEnpoint.concat(groupid)
+        const groupid = await this.initContract()
+        const url = RPCEnpoint.concat(groupid)
         console.log("TezosInteraction -> initContract -> url", url)
         
         let response = await fetch(url)
         while (response.status == 404) {
             response = await fetch(url)
         }
-        const json = await response.json()
-        console.log(json)
+        const transactionDetail = await response.json()
+        console.log("getContractHash -> transactionDetail", transactionDetail)
+
+        return transactionDetail
     }
 
     public async invokeContract() {
         const contractAddress = 'KT1HgsdV5qv78gdomfusKdrMcKJYV71DXZMs'
+        const account = await this.initAccount()
     
-        const result = await TezosNodeWriter.sendContractInvocationOperation(tezosNode, keystore, contractAddress, 
+        const result = await TezosNodeWriter.sendContractInvocationOperation(tezosNode, account.key, contractAddress, 
         10000, 100000, '', 1000, 100000, '', '{"string": "Cryptonomicon"}', TezosParameterFormat.Micheline)
         console.log(result.operationGroupID)
     }
@@ -56,7 +108,4 @@ class TezosGateway {
 }
 
 
-const tezos = new TezosGateway()
-tezos.readFile()
-
-//export default TezosGateway
+export default TezosGateway
