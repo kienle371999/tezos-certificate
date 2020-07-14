@@ -5,6 +5,13 @@
         "script": "server.js",
         "cwd": "backend/interact-web",
         "watch": true
+      },
+      {
+        "name": "tezos-blockchain",
+        "script": "server.ts",
+        "interpreter": "ts-node",
+        "cwd": "backend",
+        "watch": true
       }
     ]
 }

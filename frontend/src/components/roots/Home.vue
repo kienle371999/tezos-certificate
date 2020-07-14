@@ -3,7 +3,7 @@
     <div class="item">
       <ul>
         <li>
-          <img src="../assets/icon.png" class="icon">
+          <img src="@/assets/icon.png" class="icon">
         </li>
         <li><a class="active" href="#home">{{ "Account" }}</a></li>
         <li><a href="#news">{{ "Certificate" }}</a></li>
@@ -38,6 +38,12 @@ export default {
   }
   li {
     float: left;
+    .active {
+      margin-left: 15px;
+    }
+    &:hover, &:active, &:focus {
+      background-color: #000000;
+    }
   }
   li a {
     display: block;
@@ -51,9 +57,9 @@ export default {
 }
 
 .icon {
-  width: 50px;
-  height: 50px;
-  padding-top: 5px;
+  width: 40px;
+  height: 40px;
+  padding-top: 8px;
   padding-left: 20px;
 }
 </style>

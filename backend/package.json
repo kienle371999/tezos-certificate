@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/cors": "^2.8.6",
     "conseiljs": "^0.4.2",
     "conseiljs-softsigner": "^5.0.0-alpha.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "find-config": "^1.0.0",

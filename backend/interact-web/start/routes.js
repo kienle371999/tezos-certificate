@@ -20,5 +20,5 @@ const Route = use('Route')
 Route.group(() => {
     // User APIs
   Route.post('/user/login', 'UserController.logIn')
-  Route.post('user/register_user', 'UserController.registerUser')
+  Route.post('user/register-user', 'UserController.registerUser')
 }).prefix('api')
