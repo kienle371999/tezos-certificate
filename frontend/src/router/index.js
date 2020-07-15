@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import LogIn from '@/components/roots/LogIn.vue'
 import Home from '@/components/roots/Home'
 import Account from '@/components/details/Account.vue'
+import ForgotPassword from '@/components/roots/ForgotPassword.vue'
+import Register from '@/components/roots/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +23,16 @@ Vue.use(VueRouter)
     path: '/account',
     name: 'Account',
     component: Account
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/forgot-password',
+    name: 'Forgot Password',
+    component: ForgotPassword
   }
 ]
 

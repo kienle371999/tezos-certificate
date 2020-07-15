@@ -1,11 +1,15 @@
 <template>
   <div class="login">
     <div class="form">
-      <h1>{{ 'Login' }}</h1>
+      <h1>{{ "Login" }}</h1>
       <form class="login-form">
         <input type="email" v-model="email" placeholder="Email"/>
         <input type="password" v-model="password" placeholder="Password"/>
         <button type="button" @click="submit()">{{ "Submit" }}</button>
+        <div class="addition">
+          <a href="/forgot-password" class="external-link1">{{ "Forgot Password" }}</a>
+          <a href="/register" class="external-link2">{{ "Register" }}</a>
+        </div>
       </form>
     </div>
   </div>
@@ -64,5 +68,18 @@ h1 {
     font-size: 17px;
     border-radius: 3px;
     position: relative;
+  }
+  .addition {
+    margin-top: 25px;
+    font-weight: 500;
+    font-size: 12px;
+    display: flex;
+    .external-link1 {
+      color: #979FAF;
+    }
+    .external-link2 {
+      color: #979FAF;
+      padding-left: 224px;
+    }
   }
 </style>
