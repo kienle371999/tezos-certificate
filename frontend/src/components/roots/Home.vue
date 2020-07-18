@@ -5,19 +5,27 @@
         <li>
           <img src="@/assets/icon.png" class="icon">
         </li>
-        <li><a class="active" href="#home">{{ "Account" }}</a></li>
+        <li><a class="active" href="/account">{{ "Account" }}</a></li>
         <li><a href="#news">{{ "Certificate" }}</a></li>
         <li><a href="#contact">{{ "Transaction" }}</a></li>
         <li><a href="#about">{{ "Authentication" }}</a></li>
-        <li><a href="#about">{{ "Log out" }}</a></li>
+        <li><a @click="submit()">{{ "Log out" }}</a></li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  
+  methods: {
+    async submit() {
+      const result = await this.$auth.logOut()
+      if(result) {
+        this.$router.push('/')
+      }
+    }
+  },
 }
 </script>
 

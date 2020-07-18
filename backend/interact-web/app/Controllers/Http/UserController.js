@@ -23,7 +23,7 @@ class UserController {
             await UserService.addToken({ params: { email, token: user.token, type: 'bearer' } })
             return response.ok(user)
         } catch (error) {
-            return response.forbidden({ error: 'Invalid email or password' })
+            return response.badRequest({ error: 'Invalid email or password' })
         }
     }  
     
@@ -35,22 +35,23 @@ class UserController {
     
         const { username, email, password } = request.all()
         const validation = await validate({ username, password }, rules)
-        const duplicatedUserName = await User.findBy('username', username)
         const duplicatedEmail = await User.findBy('email', email)
-    
-        if (duplicatedUserName) {
-            return response.forbidden({ error: 'The username was registered' })
-        }
         if (duplicatedEmail) {
-            return response.forbidden({ error: 'The email was registered' })
+            return response.badRequest({ error: 'The email was registered' })
         }
         if (validation.fails()) {
-          return response.badRequest(validation.messages())
+            return response.badRequest(validation.messages())
         }
     
         const result = await UserService.registerUser({ params: request.all() })
-        return response.ok(result)
-      }    
+        return response.json(result)
+    }
+    async logOut({ request, response, auth }) {
+        const user = await auth.getUser()
+        await auth.authenticator('jwt').revokeTokensForUser(user)
+
+        return response.ok({ message: 'Done' })
+    }    
 }
 
 module.exports = UserController

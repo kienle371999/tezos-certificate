@@ -3,19 +3,74 @@
     <div class="form">
       <h1>{{ "Register" }}</h1>
       <form class="register-form">
-        <input type="text" v-model="userName" placeholder="Username"/>
+        <input type="text" v-model="username" placeholder="Username"/>
         <input type="email" v-model="email" placeholder="Email"/>
         <input type="password" v-model="password" placeholder="Password"/>
-        <button type="button" @click="submit()">{{ "Submit" }}</button>
+        <button type="button" @click="submit()" :disabled="getDisabled">{{ "Submit" }}</button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import ServerRequest from '@/requests/ServerRequest'
+
 export default {
-  
-} 
+  data() {
+    return {
+      username: null,
+      email: null,
+      password: null,
+      getDisabled: false
+    }
+  },
+  methods: {
+    async submit() {
+      if (!this.username) {
+        window.EventBus.$emit('ERROR', 'Empty username')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      if (!this.email) {
+        window.EventBus.$emit('ERROR', 'Empty email')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      if (!this.password) {
+        window.EventBus.$emit('ERROR', 'Empty password')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      if (!this.validEmail(this.email)) {
+        window.EventBus.$emit('ERROR', 'Invalid email')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      const result = await ServerRequest.registerUser({
+        username: this.username,
+        email: this.email,
+        password: this.password 
+      })
+      if (result) {
+        window.EventBus.$emit('SUCCESS', 'Success')
+        this.$router.push('/')
+      }
+    },
+    validEmail (email) {
+      var re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+      return re.test(email)
+    },
+    disable() {
+      setTimeout(() => {
+        this.getDisabled = window.EventBus.$data.disable
+      }, 2500);
+    }
+  },
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

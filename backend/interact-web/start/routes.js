@@ -21,4 +21,5 @@ Route.group(() => {
     // User APIs
   Route.post('/user/login', 'UserController.logIn')
   Route.post('user/register-user', 'UserController.registerUser')
+  Route.post('user/logout', 'UserController.logOut').middleware(['auth'])
 }).prefix('api')

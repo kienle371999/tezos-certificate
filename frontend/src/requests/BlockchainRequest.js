@@ -6,7 +6,7 @@ class BlockchainRequest extends BaseRequest {
         return baseUrl.concat(url)
     }
     async generateKey() {
-        let url = this.getURL('/api/init-account')
+        const url = this.getURL('/api/init-account')
         return this.get(url)
     }
 }

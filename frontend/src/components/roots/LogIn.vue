@@ -5,7 +5,7 @@
       <form class="login-form">
         <input type="email" v-model="email" placeholder="Email"/>
         <input type="password" v-model="password" placeholder="Password"/>
-        <button type="button" @click="submit()">{{ "Submit" }}</button>
+        <button type="button" @click="submit()" :disabled="getDisabled">{{ "Submit" }}</button>
         <div class="addition">
           <a href="/forgot-password" class="external-link1">{{ "Forgot Password" }}</a>
           <a href="/register" class="external-link2">{{ "Register" }}</a>
@@ -16,8 +16,55 @@
 </template>
 
 <script>
+
 export default {
-  
+  data() {
+    return {
+      email: null,
+      password: null,
+      getDisabled: null
+    }
+  },
+  methods: {
+    async submit () {
+      if (!this.email) {
+        window.EventBus.$emit('ERROR', 'Empty email')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      if (!this.password) {
+        window.EventBus.$emit('ERROR', 'Empty password')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      if (!this.validEmail(this.email)) {
+        window.EventBus.$emit('ERROR', 'Invalid email')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      const result = await this.$auth.logIn({
+        email: this.email,
+        password: this.password
+      })
+
+      if(result) {
+        window.EventBus.$emit('SUCCESS', 'Success')
+        this.$router.push('/account')
+      }
+    },
+    validEmail (email) {
+      var re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+      return re.test(email)
+    },
+    disable() {
+      setTimeout(() => {
+        this.getDisabled = window.EventBus.$data.disable
+      }, 2500);
+    }
+  },
 }
 </script>
 

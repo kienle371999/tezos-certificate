@@ -4,6 +4,7 @@ import './registerServiceWorker'
 import router from './router'
 
 Vue.config.productionTip = false
+require('./helper/init')
 
 new Vue({
   router,

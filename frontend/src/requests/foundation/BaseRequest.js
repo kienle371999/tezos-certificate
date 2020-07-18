@@ -40,24 +40,16 @@ export default class BaseRequest {
       axios(config)
         .then(response => {
           if (!response.data) {
-            window.EventBus.$emit('EVENT_COMMON_ERROR', 'Invalid response format: ' + response);
+            window.EventBus.$emit('ERROR', 'Invalid response format: ' + response);
             return;
           }
           resolve(response.data);
         })
         .catch(err => {
-          if (!err.response) {
-            window.EventBus.$emit('EVENT_COMMON_ERROR', err);
-            return;
-          }
-          if (!err.response.status) {
-            window.EventBus.$emit('EVENT_COMMON_ERROR', err);
-            return;
-          }
           if (err.response.status === 401) {
             return auth.removeUser();
           }
-          window.EventBus.$emit('EVENT_COMMON_ERROR', err);
+          window.EventBus.$emit('ERROR', err.response.data.error);
         });
     });
   }
