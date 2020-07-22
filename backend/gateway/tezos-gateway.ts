@@ -2,16 +2,13 @@ import { StoreType,
         TezosParameterFormat,
         TezosNodeWriter,
         TezosWalletUtil } from 'conseiljs'
-import { KeyStoreUtils } from 'conseiljs-softsigner'
 import fetch from 'node-fetch'
 import * as fs from 'fs'
 
 require('dotenv').config({ path: require('find-config')('.env') })
-
 const tezosNode = process.env.TEZOS_NODE
 const storage = '"Tezos Southeat Asia"'
 const RPCEnpoint = process.env.RPC_ENDPOINT
-
 
 class TezosGateway {
 
@@ -21,9 +18,9 @@ class TezosGateway {
 
     public async generateKey() {
         const mnemonic = TezosWalletUtil.generateMnemonic()
-        const keyGenerated = await TezosWalletUtil.unlockIdentityWithMnemonic(mnemonic)
+        const generatedkey = await TezosWalletUtil.unlockIdentityWithMnemonic(mnemonic)
         
-        return keyGenerated
+        return generatedkey
     }
 
     public async initAccount() {
@@ -50,11 +47,11 @@ class TezosGateway {
             "password": "CI3IbeOVfo",
             "email": "okhrslvc.ygqpyaph@tezos.example.org"
         }
-        const keyGenerated = await TezosWalletUtil.unlockFundraiserIdentity(faucetAccount.mnemonic.join(' '), 
+        const generatedKey = await TezosWalletUtil.unlockFundraiserIdentity(faucetAccount.mnemonic.join(' '), 
         faucetAccount.email, faucetAccount.password, faucetAccount.pkh)
-        console.log("initAccount -> keyGenerated", keyGenerated)
+        console.log("initAccount -> keyGenerated", generatedKey)
 
-        return { 'key': keyGenerated, 'secret': faucetAccount.secret } 
+        return { 'key': generatedKey, 'secret': faucetAccount.secret } 
     }
 
     public async activateAccount() {
@@ -105,7 +102,20 @@ class TezosGateway {
         const content = fs.readFileSync('./michelson/Code.tz', { encoding:'utf8', flag:'r' })
         console.log("readFile -> content", content)
     }
-}
 
+    public async signData(privateKey, data) {
+        const keyStore = await TezosWalletUtil.restoreIdentityWithSecretKey(privateKey)
+        const signature = await TezosWalletUtil.signText(keyStore, data)
+
+        return signature
+    }
+
+    public async authenticateData(signature, data, publicKey) {
+        const authentication = await TezosWalletUtil.checkSignature(signature, data, publicKey)
+        console.log("authenticateData -> authentication", authentication)
+
+        return authentication
+    }
+}
 
 export default TezosGateway

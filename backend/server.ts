@@ -21,3 +21,19 @@ app.get('/api/active-account', async function(req, res) {
     const result = await TezosGateway.getInstance().activateAccount()
     return res.send(result)
 })
+
+app.post('/api/sign-data', async function(req, res) {
+    const privateKey = req.params.privateKey
+    const data = req.params.data
+    const result = await TezosGateway.getInstance().signData(privateKey, data)
+    return res.send(result)
+})
+
+app.post('/api/authenticate-data', async function(req, res) {
+    const signature = req.params.signature
+    const data = req.params.data
+    const publicKey = req.params.publicKey
+    const result = await TezosGateway.getInstance().authenticateData(signature, data, publicKey)
+    return res.send(result)
+})
+

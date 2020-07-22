@@ -18,8 +18,13 @@ const Route = use('Route')
 
 //POST
 Route.group(() => {
-    // User APIs
   Route.post('/user/login', 'UserController.logIn')
   Route.post('user/register-user', 'UserController.registerUser')
   Route.post('user/logout', 'UserController.logOut').middleware(['auth'])
+  Route.post('user/generate-information', 'CertificateController.generate').middleware(['auth'])
+}).prefix('api')
+
+//GET
+Route.group(() => {
+Route.get('/user/get-information', 'CertificateController.getCertificate').middleware(['auth'])
 }).prefix('api')

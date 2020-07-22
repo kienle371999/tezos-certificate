@@ -29,18 +29,18 @@ class UserController {
     
     async registerUser({ request, response }) {
         const rules = {
-          username: 'string',
+          username: 'required|string',
           password: 'required|string',
         }
     
         const { username, email, password } = request.all()
         const validation = await validate({ username, password }, rules)
         const duplicatedEmail = await User.findBy('email', email)
-        if (duplicatedEmail) {
-            return response.badRequest({ error: 'The email was registered' })
-        }
         if (validation.fails()) {
             return response.badRequest(validation.messages())
+        }
+        if (duplicatedEmail) {
+            return response.badRequest({ error: 'The email was registered' })
         }
     
         const result = await UserService.registerUser({ params: request.all() })

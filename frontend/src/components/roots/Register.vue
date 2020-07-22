@@ -120,5 +120,6 @@ h1 {
   font-size: 17px;
   border-radius: 3px;
   position: relative;
+  cursor: pointer;
 }
 </style>

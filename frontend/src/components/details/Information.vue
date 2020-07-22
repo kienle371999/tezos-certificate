@@ -1,40 +1,60 @@
 <template>
-  <div class="login">
-    <div class="form">
-      <h1>{{ "Login" }}</h1>
-      <form class="login-form">
-        <input type="email" v-model="email" placeholder="Email"/>
-        <input type="password" v-model="password" placeholder="Password"/>
-        <button type="button" @click="submit()" :disabled="getDisabled">{{ "Submit" }}</button>
-        <div class="addition">
-          <a href="/forgot-password" class="external-link1">{{ "Forgot Password" }}</a>
-          <a href="/register" class="external-link2">{{ "Register" }}</a>
-        </div>
-      </form>
+  <div>
+    <home :activeInfo="true"/>
+    <div class="info">
+      <div class="form">
+        <h1>{{ "Information" }}</h1>
+        <form class="info-form">
+          <input type="text" v-model="name" placeholder="Name"/>
+          <input type="text" v-model="identity" placeholder="Student ID"/>
+          <input type="email" v-model="email" placeholder="Email"/>
+          <input type="text" v-model="type" placeholder="Diploma Type"/>
+          <button type="button" @click="submit()" :disable="getDisabled">{{ "Submit" }}</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Home from '@/components/roots/Home.vue'
+import ServerRequest from '@/requests/ServerRequest'
 
 export default {
+  components: {
+    Home
+  },
   data() {
     return {
+      name: null,
+      identity: null,
       email: null,
-      password: null,
-      getDisabled: null
+      type: null,
+      getDisabled: false,
     }
   },
   methods: {
-    async submit () {
+    async submit() {
+      if (!this.name) {
+        window.EventBus.$emit('ERROR', 'Empty name')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
+      if (!this.identity) {
+        window.EventBus.$emit('ERROR', 'Empty Student ID')
+        this.getDisabled = true
+        this.disable()
+        return
+      }
       if (!this.email) {
         window.EventBus.$emit('ERROR', 'Empty email')
         this.getDisabled = true
         this.disable()
         return
       }
-      if (!this.password) {
-        window.EventBus.$emit('ERROR', 'Empty password')
+      if (!this.type) {
+        window.EventBus.$emit('ERROR', 'Empty Diploma Type')
         this.getDisabled = true
         this.disable()
         return
@@ -45,14 +65,17 @@ export default {
         this.disable()
         return
       }
-      const result = await this.$auth.logIn({
+
+      const result = await ServerRequest.generateCertificate({
+        name: this.name,
+        identity: this.identity,
         email: this.email,
-        password: this.password
+        type: this.type
       })
 
       if(result) {
         window.EventBus.$emit('SUCCESS', 'Success')
-        this.$router.push('/account')
+        this.refresh()
       }
     },
     validEmail (email) {
@@ -63,6 +86,12 @@ export default {
       setTimeout(() => {
         this.getDisabled = window.EventBus.$data.disable
       }, 2500);
+    },
+    refresh() {
+      this.name = null
+      this.identity = null
+      this.email = null
+      this.type = null
     }
   },
 }
@@ -90,7 +119,7 @@ h1 {
     z-index: 1;
     background: #FFFFFF;
     max-width: 360px;
-    margin: 70px auto auto auto;
+    margin: 95px auto auto auto;
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -117,17 +146,10 @@ h1 {
     position: relative;
     cursor: pointer;
   }
-  .addition {
-    margin-top: 25px;
-    font-weight: 500;
-    font-size: 12px;
-    display: flex;
-    .external-link1 {
-      color: #979FAF;
-    }
-    .external-link2 {
-      color: #979FAF;
-      padding-left: 224px;
-    }
+  li {
+    background-color: #000000;
+  }
+  li.background {
+    background-color: #000000;
   }
 </style>

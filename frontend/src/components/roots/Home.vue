@@ -5,10 +5,10 @@
         <li>
           <img src="@/assets/icon.png" class="icon">
         </li>
-        <li><a class="active" href="/account">{{ "Account" }}</a></li>
-        <li><a href="#news">{{ "Certificate" }}</a></li>
-        <li><a href="#contact">{{ "Transaction" }}</a></li>
-        <li><a href="#about">{{ "Authentication" }}</a></li>
+        <li class="active" :class="{ background: activeAccount }"><a href="/account">{{ "Account" }}</a></li>
+        <li :class="{ background: activeInfo }"><a href="/information">{{ "Information" }}</a></li>
+        <li :class="{ background: activeCertificate }"><a href="/certificate">{{ "Certificate" }}</a></li>
+        <li :class="{ background: activeAuthen }"><a href="#about">{{ "Authentication" }}</a></li>
         <li><a @click="submit()">{{ "Log out" }}</a></li>
       </ul>
     </div>
@@ -18,14 +18,32 @@
 <script>
 
 export default {
+  props: {
+    activeAccount: {
+      type: Boolean,
+      default: false
+    },
+    activeInfo: {
+      type: Boolean,
+      default: false
+    },
+    activeCertificate: {
+      type: Boolean,
+      default: false
+    },
+    activeAuthen: {
+      type: Boolean,
+      default: false
+    },
+  },
   methods: {
     async submit() {
       const result = await this.$auth.logOut()
       if(result) {
         this.$router.push('/')
       }
-    }
-  },
+    },
+  }
 }
 </script>
 
@@ -46,12 +64,19 @@ export default {
   }
   li {
     float: left;
-    .active {
-      margin-left: 15px;
-    }
-    &:hover, &:active, &:focus {
+    cursor: pointer;
+    &:hover {
       background-color: #000000;
     }
+  }
+  li.background {
+    background-color: #000000;
+  }
+  li.active {
+    margin-left: 15px;
+  }
+  li.active.background {
+    background-color: #000000;
   }
   li a {
     display: block;

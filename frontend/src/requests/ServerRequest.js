@@ -9,6 +9,14 @@ class ServerRequest extends BaseRequest {
         const url = this.getURL('/api/user/register-user')
         return this.post(url, params)
     }
+    async generateCertificate(params) {
+        const url = this.getURL('/api/user/generate-information')
+        return this.post(url, params)
+    }
+    async getCertificate() {
+        const url = this.getURL('/api/user/get-information')
+        return this.get(url)
+    }
 }
 
 const instance = new ServerRequest()

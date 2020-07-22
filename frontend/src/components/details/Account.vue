@@ -1,6 +1,6 @@
 <template>
   <div>
-    <home/>
+    <home :activeAccount="true"/>
     <div class="account">
       <button type="button" 
       v-on:click="getKey()" 
