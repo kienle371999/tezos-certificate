@@ -1,2 +1,2 @@
-Storage: sp.TRecord(phrase = sp.TString)
-Params: sp.TVariant(setPhrase = sp.TString)
+Storage: sp.TRecord(phrase = sp.TMap(sp.TString, sp.TString))
+Params: sp.TVariant()

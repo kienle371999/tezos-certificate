@@ -1,6 +1,7 @@
 'use strict'
 
 const Certificate = use('App/Models/Certificate')
+const Hash = use('Hash')
 
 class CertificateService {
     static async generate({ params, auth }) {
@@ -28,6 +29,31 @@ class CertificateService {
         else {
             return credential
         }
+    }
+
+    static async getHash({ params }) {
+        const { email } = params
+        const certificate = await Certificate.findBy('email', email) 
+        const hash = await Hash.make(certificate.toString())
+        return hash
+    }
+
+    static async createSignature({ params }) {
+        const { email, signature } = params 
+        const signed_certificate = await Certificate.query()
+        .where('email', email)
+        .update({ signature: signature })
+
+        return signed_certificate
+    }
+
+    static async createBlockchainHash({ params }) {
+        const { email, blockchain_hash } = params
+        const broadcasted_certificate = await Certificate.query()
+        .where('email', email)
+        .update({ blockchain_hash: blockchain_hash, is_broadcasted: true })
+
+        return broadcasted_certificate
     }
 }
 

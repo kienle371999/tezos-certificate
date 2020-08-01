@@ -7,7 +7,6 @@ import * as fs from 'fs'
 
 require('dotenv').config({ path: require('find-config')('.env') })
 const tezosNode = process.env.TEZOS_NODE
-const storage = '"Tezos Southeat Asia"'
 const RPCEnpoint = process.env.RPC_ENDPOINT
 
 class TezosGateway {
@@ -56,26 +55,36 @@ class TezosGateway {
 
     public async activateAccount() {
         const account = await this.initAccount()
-        console.log(tezosNode)
         const accountDetail = await TezosNodeWriter.sendIdentityActivationOperation(tezosNode, account.key, account.secret)
         console.log("activateAccount -> accountDetail", accountDetail)
 
         return accountDetail
     }
 
-    public async initContract() {
-        const account = await this.initAccount()
-        const contract = fs.readFileSync('./michelson/Code.tz', { encoding:'utf8', flag:'r' })
+    public async initContract(privateKey, certificate) {
+        console.log("TezosGateway -> initContract -> certificate", certificate)
+        
+        const storage = `{ Elt "Credential Number" "${certificate.credential_number}"; 
+        Elt "Diploma Type" "${certificate.diploma_type}"; 
+        Elt "Identity" "${certificate.identity}"; Elt "Name" "${certificate.name}"; 
+        Elt "Signature" "${certificate.signature}" }`
+        
+        console.log("TezosGateway -> initContract -> storage", storage)
+        const contract = this.readFile()
+        console.log("TezosGateway -> initContract -> contract", contract)
+        
+        const keyStore = await TezosWalletUtil.restoreIdentityWithSecretKey(privateKey)
+        console.log("TezosGateway -> initContract -> keyStore", keyStore)
 
         const nodeResult = await TezosNodeWriter.sendContractOriginationOperation(tezosNode, 
-        account.key, 0, undefined, 100000, '', 1000, 100000, contract, storage, TezosParameterFormat.Michelson)
+        keyStore, 0, undefined, 100000, '', 1000, 100000, contract.toString(), storage, TezosParameterFormat.Michelson)
         const groupid = nodeResult['operationGroupID'].replace(/\"/g, '').replace(/\n/, '') 
         console.log(`Injected operation group id ${groupid}`)
         return groupid
     }
 
-    public async getContractHash() {
-        const groupid = await this.initContract()
+    public async getContractHash(privateKey, certificate) {
+        const groupid = await this.initContract(privateKey, certificate)
         const url = RPCEnpoint.concat(groupid)
         console.log("TezosInteraction -> initContract -> url", url)
         
@@ -100,12 +109,13 @@ class TezosGateway {
 
     public readFile() {
         const content = fs.readFileSync('./michelson/Code.tz', { encoding:'utf8', flag:'r' })
-        console.log("readFile -> content", content)
+        return content
     }
 
     public async signData(privateKey, data) {
         const keyStore = await TezosWalletUtil.restoreIdentityWithSecretKey(privateKey)
         const signature = await TezosWalletUtil.signText(keyStore, data)
+        console.log("TezosGateway -> signData -> signature", signature)
 
         return signature
     }

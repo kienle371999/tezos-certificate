@@ -1,3 +1,3 @@
-(storage (record 6 (phrase (literal (string "Tezos") 6)))
-messages ((setPhrase ((set (attr (data) "phrase" 9) (params 7) 9))))
+(storage (record 6 (phrase (map (unknown "map tkey 1") (unknown "map tvalue 2") 6 ((literal (string "Name") 18) (literal (string "John") 18)) ((literal (string "Identity") 18) (literal (string "17021234") 18)) ((literal (string "Diploma Type") 18) (literal (string "Computer Science") 18)) ((literal (string "Credential Number") 18) (literal (string "UET1234") 18)) ((literal (string "Signature") 18) (literal (string "sign") 18)))))
+messages ()
 flags())

@@ -7,10 +7,15 @@
             <div class="modal-header">{{ "Sign Certificate" }}</div>
             <div class="modal-body">
               <input type="text" v-model="key" class="key" placeholder="Private Key"/>
-              <textarea name="signature" cols="30" rows="5"></textarea>
+              <textarea name="signature" 
+              v-model="signature" 
+              cols="30" rows="5"
+              :disabled="getDisabled"
+              placeholder="Signature"></textarea>
             </div>
             <div class="modal-footer">
-              <button>{{ "Submit" }}</button>
+              <button @click="submit">{{ "Submit" }}</button>
+              <button class="close" @click="close">{{ "Close" }}</button>
             </div>
           </div>
         </div>
@@ -20,9 +25,38 @@
 </template>
 
 <script>
-  export default {
-    
-  }
+import ServerRequest from '@/requests/ServerRequest'
+import BlockchainRequest from '@/requests/BlockchainRequest'
+
+export default {
+  data() {
+    return {
+      key: null,
+      signature: null,
+      getDisabled: false
+    }
+  },
+  props: {
+    email: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    async submit() {
+      const hash = await ServerRequest.getHash({ email: this.email })
+      const signature = await BlockchainRequest.signCertificate({ privateKey: this.key, data: hash })
+      await ServerRequest.createSignature({ email: this.email, signature: signature })
+      this.signature = signature
+      this.getDisabled = true
+      window.EventBus.$emit('SUCCESS', 'Success')
+    },
+    close() {
+      this.$emit('close-modal', this.key)
+      this.$emit('disable')
+    }
+  },
+}
 </script>
 
 <style scoped>
@@ -63,7 +97,7 @@
 }
 .modal-body input {
   font-size: 15px;
-  color: #031532;
+  color: #000000;
   border-radius: 3px;
   padding: 12px 15px;
   margin-bottom: 10px;
@@ -73,8 +107,9 @@
   width: 100%;
 }
 .modal-body textarea {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
-  color: #031532;
+  color: #000000;
   border-radius: 3px;
   padding: 12px 15px;
   margin-bottom: 10px;
@@ -97,5 +132,8 @@
   margin-left: auto;
   margin-right: 0;
   cursor: pointer; 
+}
+.modal-footer button.close {
+  margin-left: 5px;
 }
 </style>

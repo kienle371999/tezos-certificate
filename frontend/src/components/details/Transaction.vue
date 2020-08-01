@@ -1,6 +1,6 @@
 <template>
   <div>
-    <home :activeCertificate="true"/>
+    <home :activeTransaction="true"/>
     <div class="datatable">
       <table>
         <tr>
@@ -18,38 +18,76 @@
           <td>{{ certificate.diploma_type }}</td>
           <td>{{ certificate.credential_number }}</td>
           <td class="action">
-            <button @click="getLink()">{{ "Link" }}</button>
+            <button 
+            @click="showSignature(certificate.email, index)" 
+            :disabled="signDisabled[index]"
+            :class="{ disable: signDisabled[index] }">{{ "Sign" }}</button>
+            <button class="right-button" 
+            @click="broadcast()"
+            :disabled="broadcastDisabled[index]"
+            :class="{ disable: broadcastDisabled[index] }">{{ "Broadcast" }}</button>
           </td>
         </tr>
       </table>
     </div>
+    <signature-modal v-if="signModal" :email="email" @close-modal="close" @disable="disable"/>
   </div>
 </template>
 
 <script>
-import Home from '@/components/roots/Home.vue' 
+import Home from '@/components/roots/Home.vue'
 import ServerRequest from '@/requests/ServerRequest'
+import SignatureModal from '@/components/modals/SignatureModal.vue'
+import BlockchainRequest from '@/requests/BlockchainRequest' 
 
 export default {
   components: {
-    Home
+    Home,
+    SignatureModal
   },
   data() {
     return {
-      certificates: []
+      certificates: [],
+      signModal: false,
+      email: null,
+      index: 0,
+      privateKey: null,
+      signDisabled: [],
+      broadcastDisabled: [false, false]
     }
   },
   created () {
     ServerRequest.getCertificate().then(certificates => {
       certificates.forEach(certificate => {
-        if(certificate.is_broadcasted) {
+        if(!certificate.is_broadcasted) {
           this.certificates.push(certificate)
         }
       })
     })
   },
   methods: {
-
+    showSignature(email, index) {
+      this.signModal = true
+      this.email = email
+      this.index = index
+    },
+    close(key) {
+      this.privateKey = key
+      this.signModal = false
+    },
+    disable() {
+      this.$set(this.signDisabled, this.index, true)
+    },
+    async broadcast() {
+      const blockchainHash = await BlockchainRequest.broadcastCertificate({ privateKey: this.privateKey, 
+      certificate: this.certificates[this.index] })
+      await ServerRequest.storeHash({ email: this.email, blockchain_hash: blockchainHash[0].receiver })
+      this.$set(this.broadcastDisabled, this.index, true)
+      window.EventBus.$emit('SUCCESS', 'Success')
+    }
+  },
+  mouted() {
+    this.broadcastDisabled[0] = true;
   },
 }
 </script>
@@ -97,6 +135,12 @@ button {
   cursor: pointer;
 }
 button.disable {
+  background: #625D5D;
+}
+.right-button {
+  margin-left: 5px;
+}
+.right-button.disable {
   background: #625D5D;
 }
 </style>

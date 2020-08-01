@@ -5,11 +5,11 @@
       <button type="button" 
       v-on:click="getKey()" 
       :disabled="getDisabled"
-      :class="{ 'disable': getDisabled }">{{ "Generate Key" }}</button>
+      :class="{ disable: getDisabled }">{{ "Generate Key" }}</button>
       <button type="button" 
       v-on:click="downloadKey()" 
       :disabled="downloadDisabled"
-      :class="{ 'disable': downloadDisabled }">{{ "Download" }}</button>
+      :class="{ disable: downloadDisabled }">{{ "Download" }}</button>
     </div>
   </div>
 </template>

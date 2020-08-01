@@ -1,12 +1,14 @@
 [
 {"prim":"storage","args":[
- {"prim":"string"}]
+ {"prim":"map","args":[
+  {"prim":"string"},{"prim":"string"}]
+ }]
 },
 {"prim":"parameter","args":[
- {"prim":"string"}]
+ {"prim":"unit"}]
 },
 {"prim":"code","args":[
- [{"prim":"DUP"},{"prim":"CDR"},{"prim":"SWAP"},{"prim":"CAR"},{"prim":"SWAP"},{"prim":"DROP"},
+ [{"prim":"CDR"},
  {"prim":"NIL","args":[
   {"prim":"operation"}]
  },{"prim":"PAIR"}]]

@@ -22,9 +22,12 @@ Route.group(() => {
   Route.post('user/register-user', 'UserController.registerUser')
   Route.post('user/logout', 'UserController.logOut').middleware(['auth'])
   Route.post('user/generate-information', 'CertificateController.generate').middleware(['auth'])
+  Route.post('user/create-signature', 'CertificateController.createSignature').middleware(['auth'])
+  Route.post('user/store-hash', 'CertificateController.storeBlockchainHash').middleware(['auth'])
 }).prefix('api')
 
 //GET
 Route.group(() => {
 Route.get('/user/get-information', 'CertificateController.getCertificate').middleware(['auth'])
+Route.get('/user/get-hash', 'CertificateController.getCertificateHash').middleware(['auth'])
 }).prefix('api')

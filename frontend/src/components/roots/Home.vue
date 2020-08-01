@@ -7,6 +7,7 @@
         </li>
         <li class="active" :class="{ background: activeAccount }"><a href="/account">{{ "Account" }}</a></li>
         <li :class="{ background: activeInfo }"><a href="/information">{{ "Information" }}</a></li>
+        <li :class="{ background: activeTransaction }"><a href="/transaction">{{ "Transaction" }}</a></li>
         <li :class="{ background: activeCertificate }"><a href="/certificate">{{ "Certificate" }}</a></li>
         <li :class="{ background: activeAuthen }"><a href="#about">{{ "Authentication" }}</a></li>
         <li><a @click="submit()">{{ "Log out" }}</a></li>
@@ -27,11 +28,15 @@ export default {
       type: Boolean,
       default: false
     },
-    activeCertificate: {
+    activeTransaction: {
       type: Boolean,
       default: false
     },
     activeAuthen: {
+      type: Boolean,
+      default: false
+    },
+    activeCertificate: {
       type: Boolean,
       default: false
     },

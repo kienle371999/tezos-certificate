@@ -6,7 +6,9 @@ import Account from '@/components/details/Account.vue'
 import ForgotPassword from '@/components/roots/ForgotPassword.vue'
 import Register from '@/components/roots/Register.vue'
 import Information from '@/components/details/Information.vue'
+import Transaction from '@/components/details/Transaction.vue'
 import Certificate from '@/components/details/Certificate.vue'
+
 
 Vue.use(VueRouter)
 const storedUser = localStorage.getItem('user')
@@ -48,6 +50,12 @@ const authentication = ((to, from, next) => {
     path: '/information',
     name: 'Information',
     component: Information,
+    beforeEnter: authentication
+  },
+  {
+    path: '/transaction',
+    name: 'Transaction',
+    component: Transaction,
     beforeEnter: authentication
   },
   {
