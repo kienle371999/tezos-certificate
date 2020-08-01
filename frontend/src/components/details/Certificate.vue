@@ -18,7 +18,7 @@
           <td>{{ certificate.diploma_type }}</td>
           <td>{{ certificate.credential_number }}</td>
           <td class="action">
-            <button @click="getLink()">{{ "Link" }}</button>
+            <button @click="getHash(index)">{{ "Hash" }}</button>
           </td>
         </tr>
       </table>
@@ -39,7 +39,7 @@ export default {
       certificates: []
     }
   },
-  created () {
+created () {
     ServerRequest.getCertificate().then(certificates => {
       certificates.forEach(certificate => {
         if(certificate.is_broadcasted) {
@@ -49,7 +49,11 @@ export default {
     })
   },
   methods: {
-
+    getHash(index) {
+      const baseURL = process.env.VUE_APP_TEZOS_URL
+      const url = baseURL.concat(this.certificates[index].blockchain_hash)
+      window.open(url)
+    }
   },
 }
 </script>
