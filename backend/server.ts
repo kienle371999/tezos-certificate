@@ -5,13 +5,13 @@ import TezosGateway from './gateway/tezos-gateway'
 
 require('dotenv').config({ path: require('find-config')('.env') })
 const app = express()
-const host = process.env.API_PORT
+const port = process.env.API_PORT
 
 app.use(cors())
 app.use(bodyParser())
 
-app.listen(host, function() {
-    console.log(`Server is listened on port ${host}`)
+app.listen(port, function() {
+    console.log(`Server is listened on port ${port}`)
 })
 
 app.get('/api/init-account', async function(req, res) {

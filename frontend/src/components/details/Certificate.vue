@@ -18,7 +18,7 @@
           <td>{{ certificate.diploma_type }}</td>
           <td>{{ certificate.credential_number }}</td>
           <td class="action">
-            <button @click="getHash(index)">{{ "Hash" }}</button>
+            <button @click="getHash(index)">{{ "Detail" }}</button>
           </td>
         </tr>
       </table>

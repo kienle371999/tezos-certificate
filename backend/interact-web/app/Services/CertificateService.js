@@ -51,7 +51,7 @@ class CertificateService {
         const { email, blockchain_hash } = params
         const broadcasted_certificate = await Certificate.query()
         .where('email', email)
-        .update({ blockchain_hash: blockchain_hash, is_broadcasted: true })
+        .update({ blockchain_hash: blockchain_hash, is_broadcasted: true, signature: 'broadcasted into blockchain' })
 
         return broadcasted_certificate
     }
