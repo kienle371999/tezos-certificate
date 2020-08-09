@@ -40,18 +40,18 @@ class CertificateService {
 
     static async createSignature({ params }) {
         const { email, signature } = params 
-        const signed_certificate = await Certificate.query()
+        await Certificate.query()
         .where('email', email)
         .update({ signature: signature })
 
-        return signed_certificate
+        return Certificate.findBy('email', email)
     }
 
     static async createBlockchainHash({ params }) {
         const { email, blockchain_hash } = params
         const broadcasted_certificate = await Certificate.query()
         .where('email', email)
-        .update({ blockchain_hash: blockchain_hash, is_broadcasted: true, signature: 'broadcasted into blockchain' })
+        .update({ blockchain_hash: blockchain_hash, is_broadcasted: true, signature: "broadcasted into blockchain" })
 
         return broadcasted_certificate
     }

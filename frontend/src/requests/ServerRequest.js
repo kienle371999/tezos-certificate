@@ -31,6 +31,21 @@ class ServerRequest extends BaseRequest {
         const url = this.getURL('/api/user/store-hash')
         return this.post(url, params)
     }
+
+    async initCertificate(params) {
+        const url = this.getURL('/api/init-certificate-data')
+        return this.post(url, params)
+    }
+
+    async createCertificatePDF(params) {
+        const url = this.getURL('/api/create-certificate-pdf')
+        return this.get(url, params)
+    }
+
+    async sendCertificateByMail(params) {
+        const url = this.getURL('/api/send-mail-certificate')
+        return this.post(url, params)
+    }
 }
 
 const instance = new ServerRequest()

@@ -5,25 +5,19 @@ var path = require('path');
 var slug = require('slug');
 var swig = require('swig');
 var sh = require('shelljs');
-var cp = require('child_process');
+//var cp = require('child_process');
 var phantomjs = require('phantomjs');
-var colors = require('../helpers/colors')();
 var rootPath = path.join(__dirname, '../../bin');
+var { execFile } = require('promisify-child-process');
 
 // ----------------------------------------------------------------------------
 //  Privated Methods
 // ----------------------------------------------------------------------------
-function _executePhantomScript(args, cbSuccess, cbError) {
-  var binPath = phantomjs.path;
 
-  cp.execFile(binPath, args, function(err, stdout, stderr) {
-    if (err) {
-      cbError(err);
-    }
-    else {
-      cbSuccess();
-    }
-  });
+async function _executePhantomScript(args) {
+  var binPath = phantomjs.path;
+  
+  await execFile(binPath, args);
 }
 
 function _removeHTMLFile(path) {
@@ -42,7 +36,7 @@ var generator = module.exports = {
   },
 
   createSlug: function(name) {
-    return slug(name).toLowerCase();
+    return slug(name);
   },
 
   generateHTML: function(slug, data) {
@@ -55,20 +49,16 @@ var generator = module.exports = {
     fs.writeFileSync(filePath, file);
   },
 
-  generatePDF: function(slug, name) {
+  generatePDF: async function(slug, name) {
     var script = path.join(__dirname, '../helpers/phantom.js');
     var file = path.join(this.CERTIFICATES_DIR, slug + '.html');
     var newFile = path.join(this.CERTIFICATES_DIR, slug + '.pdf');
     var args = [script, file, newFile];
-
-    _executePhantomScript(args, function() {
-      var success = 'Certificate generated successfully to ' + name;
-      console.log(success.done);
-
-      _removeHTMLFile(file);
-    }, function(err) {
-      console.log(err.error);
-    });
+    console.log("args", args)
+    console.log('==========generate PDF==========');
+    await _executePhantomScript(args);
+    _removeHTMLFile(file);
+    console.log('========== close generate PDF=========');
   },
 
   checkIfExistsCertificates: function() {
@@ -76,9 +66,6 @@ var generator = module.exports = {
   
     if (!sh.test('-e', certificatesDir)) {
       sh.mkdir(certificatesDir);
-    } else {
-      sh.rm('-rf', certificatesDir);
-      sh.mkdir(certificatesDir);
-    }
+    } 
   }
 };

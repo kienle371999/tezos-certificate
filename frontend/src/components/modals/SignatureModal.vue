@@ -33,7 +33,8 @@ export default {
     return {
       key: null,
       signature: null,
-      getDisabled: false
+      getDisabled: false,
+      currentCertificate: null
     }
   },
   props: {
@@ -46,13 +47,14 @@ export default {
     async submit() {
       const hash = await ServerRequest.getHash({ email: this.email })
       const signature = await BlockchainRequest.signCertificate({ privateKey: this.key, data: hash })
-      await ServerRequest.createSignature({ email: this.email, signature: signature })
+      const currentCertificate = await ServerRequest.createSignature({ email: this.email, signature: signature })
+      this.currentCertificate = currentCertificate
       this.signature = signature
       this.getDisabled = true
       window.EventBus.$emit('SUCCESS', 'Success')
     },
     close() {
-      this.$emit('close-modal', this.key)
+      this.$emit('close-modal', this.key, this.currentCertificate)
       this.$emit('disable')
     }
   },

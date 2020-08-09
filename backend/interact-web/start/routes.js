@@ -24,7 +24,8 @@ Route.group(() => {
   Route.post('user/generate-information', 'CertificateController.generate').middleware(['auth'])
   Route.post('user/create-signature', 'CertificateController.createSignature').middleware(['auth'])
   Route.post('user/store-hash', 'CertificateController.storeBlockchainHash').middleware(['auth'])
-  Route.post('init-certificate-data', 'PDFController.initCertificate')
+  Route.post('init-certificate-data', 'PDFController.initCertificate').middleware(['auth'])
+  Route.post('send-mail-certificate', 'PDFController.sendMailToRecipient').middleware(['auth'])
 }).prefix('api')
 
 //GET

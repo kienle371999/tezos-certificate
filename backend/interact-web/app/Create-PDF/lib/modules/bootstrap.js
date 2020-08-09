@@ -20,6 +20,7 @@ function _createMsg(msg) {
 
 var generator = module.exports = {
   install: function(data) {
+  console.log("Store data in config", data)
     _createMsg(rootPath + '/config.json');
     JSON.stringify(data, null, 2).to(rootPath + '/config.json');
   },

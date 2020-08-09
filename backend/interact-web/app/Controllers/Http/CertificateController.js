@@ -34,8 +34,7 @@ class CertificateController {
 
     async getCertificate({ request, response }) {
         const result = await Certificate.all()
-        console.log("getCertificate -> result", result)
-
+        
         return response.ok(result)
     }
     async getCertificateHash({ request, response }) {
@@ -75,8 +74,9 @@ class CertificateController {
             return response.badRequest({ error: 'Certificate was signed' })
         }
 
-        await CertificateService.createSignature({ params: request.all() })
-        return response.ok({ message: 'Done' })
+        const result = await CertificateService.createSignature({ params: request.all() })
+        console.log("createSignature -> result", result)
+        return response.ok(result)
     }
 
     async storeBlockchainHash({ request, response }) {

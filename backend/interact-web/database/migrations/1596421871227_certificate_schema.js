@@ -13,6 +13,9 @@ class CertificateSchema extends Schema {
       table.string('email').notNullable().unique()
       table.string('diploma_type').notNullable()
       table.string('credential_number').notNullable().unique()
+      table.string('signature')
+      table.string('blockchain_hash').unique()
+      table.boolean('is_broadcasted').defaultTo(false)
       table.timestamps()
     })
   }

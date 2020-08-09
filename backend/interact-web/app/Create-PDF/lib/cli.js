@@ -12,13 +12,12 @@ var generator = app.generator;
 var cli = module.exports = {
   init: function(courseData) {
     bootstrap.install(courseData);
-    //bootstrap.runDependencies();
+    bootstrap.runDependencies();
   },
 
-  generate: function() {
+  generate: async function() {
     generator.checkIfExistsCertificates();
-    console.log('Waiting, generating certificates...'.notice);
-
+    
     var config = generator.getConfig();
     var slug = generator.createSlug(config.name);
     var localData = {
@@ -29,10 +28,10 @@ var cli = module.exports = {
     };
 
     generator.generateHTML(slug, localData);
-    generator.generatePDF(slug, config.name);
+    await generator.generatePDF(slug, config.name);
   },
 
-  send: function(opts) {
-    // send certificates via email using nodemailer
+  removePDFCertificate(path) {
+    sh.rm('-f', path);
   }
 };
