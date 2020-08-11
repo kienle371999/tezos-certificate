@@ -18,6 +18,11 @@ class BlockchainRequest extends BaseRequest {
         const url = this.getURL('/api/broadcast-certificate')
         return this.post(url, params)
     }
+
+    async getContractDetail(params) {
+        const url = this.getURL('/api/get-contract-detail')
+        return this.post(url, params)
+    }
 }
 
 const instance = new BlockchainRequest()

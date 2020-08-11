@@ -12,12 +12,6 @@
         "interpreter": "ts-node",
         "cwd": "backend",
         "watch": true
-      },
-      {
-        "name": "tezos-certificate-pdf",
-        "script": "server.js",
-        "cwd": "backend/interact-web/app/Create-PDF/bin",
-        "watch": true
       }
     ]
 }

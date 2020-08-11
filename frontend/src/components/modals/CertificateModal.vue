@@ -1,21 +1,24 @@
 <template>
-  <div>
+  <div v-if="dataReady">
     <transition name="modal">
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
-            <div class="modal-header">{{ "Sign Certificate" }}</div>
+            <div class="modal-header">{{ "Blockchain Detail" }}</div>
             <div class="modal-body">
-              <input type="text" v-model="key" class="key" placeholder="Private Key"/>
-              <textarea name="signature" 
-              v-model="signature" 
-              cols="30" rows="5"
-              :disabled="getDisabled"
-              placeholder="Signature"></textarea>
-            </div>
+              <label>{{ "Network" }}</label>
+              <input type="text" :value="network" :disabled="true" class="network"/>
+              <label>{{ "Height" }}</label>
+              <input type="text" :value="contractDetail.meta.height" :disabled="true" class="height"/>
+              <label>{{ "Block Hash" }}</label>
+              <input type="text" :value="contractDetail.meta.block" :disabled="true" class="block-hash"/>
+              <label>{{ "Contract Hash" }}</label>
+              <a :href="blockchainDirectory" target="_blank">
+              <input type="text" :value="contractDetail.meta.contract" :disabled="true" class="contract-hash"/>
+              </a>
+            </div> 
             <div class="modal-footer">
-              <button @click="submit">{{ "Submit" }}</button>
-              <button class="close" @click="close">{{ "Close" }}</button>
+              <button @click="close">{{ "Close" }}</button>
             </div>
           </div>
         </div>
@@ -25,37 +28,34 @@
 </template>
 
 <script>
-import ServerRequest from '@/requests/ServerRequest'
 import BlockchainRequest from '@/requests/BlockchainRequest'
 
 export default {
   data() {
     return {
-      key: null,
-      signature: null,
-      getDisabled: false,
-      currentCertificate: null
+      network: 'Carthagenet',
+      contractDetail: null,
+      blockchainDirectory: null,
+      dataReady: false
     }
   },
   props: {
-    email: {
+    contractAddress: {
       type: String,
       required: true
-    }
+    },
+  },
+  async created() {
+    const baseURL = process.env.VUE_APP_TEZOS_URL
+    const url = baseURL.concat(this.contractAddress)
+    this.blockchainDirectory = url
+    const res = await BlockchainRequest.getContractDetail({ contractAddress: this.contractAddress })
+    this.contractDetail = res
+    this.dataReady = true
   },
   methods: {
-    async submit() {
-      const hash = await ServerRequest.getHash({ email: this.email })
-      const signature = await BlockchainRequest.signCertificate({ privateKey: this.key, data: hash })
-      const currentCertificate = await ServerRequest.createSignature({ email: this.email, signature: signature })
-      this.currentCertificate = currentCertificate
-      this.signature = signature
-      this.getDisabled = true
-      window.EventBus.$emit('SUCCESS', 'Success')
-    },
     close() {
-      this.$emit('close-modal', this.key, this.currentCertificate)
-      this.$emit('disable')
+      this.$emit('close-modal')
     }
   },
 }
@@ -97,28 +97,32 @@ export default {
 .modal-body {
   margin: 20px 0;
 }
-.modal-body input {
+.modal-body label {
+  float: left;
+  margin-top: 12px;
   font-size: 15px;
   color: #000000;
-  border-radius: 3px;
-  padding: 12px 15px;
-  margin-bottom: 10px;
-  background-color: #f3f4f5;
-  border: solid 1px rgba(3,21,50,0.13);
-  box-sizing: border-box;
-  width: 100%;
 }
-.modal-body textarea {
-  font-family: Arial, Helvetica, sans-serif;
+.modal-body input {
+  display: block;
   font-size: 15px;
   color: #000000;
   border-radius: 3px;
   padding: 12px 15px;
+  margin-left: 115px;
   margin-bottom: 10px;
   background-color: #f3f4f5;
   border: solid 1px rgba(3,21,50,0.13);
+  background: #999999;
   box-sizing: border-box;
-  width: 100%;
+  width: 78%;
+}
+.modal-body .contract-hash {
+  cursor: pointer;
+  color: #ff0000;
+}
+.modal-body a {
+  text-decoration: none;
 }
 .modal-footer {
   display: flex;
@@ -132,10 +136,7 @@ export default {
   font-size: 15px;
   border-radius: 3px;
   margin-left: auto;
-  margin-right: 0;
+  margin-right: auto;
   cursor: pointer; 
-}
-.modal-footer button.close {
-  margin-left: 5px;
 }
 </style>

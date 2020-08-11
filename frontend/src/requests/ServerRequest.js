@@ -37,9 +37,14 @@ class ServerRequest extends BaseRequest {
         return this.post(url, params)
     }
 
-    async createCertificatePDF(params) {
+    async createCertificatePDF() {
         const url = this.getURL('/api/create-certificate-pdf')
-        return this.get(url, params)
+        return this.post(url)
+    }
+
+    async stopCertificatePDF() {
+        const url = this.getURL('/api/stop-certificate-pdf')
+        return this.post(url)
     }
 
     async sendCertificateByMail(params) {

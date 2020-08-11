@@ -5,7 +5,7 @@ var path = require('path');
 var slug = require('slug');
 var swig = require('swig');
 var sh = require('shelljs');
-//var cp = require('child_process');
+var cp = require('child_process');
 var phantomjs = require('phantomjs');
 var rootPath = path.join(__dirname, '../../bin');
 var { execFile } = require('promisify-child-process');
@@ -17,7 +17,7 @@ var { execFile } = require('promisify-child-process');
 async function _executePhantomScript(args) {
   var binPath = phantomjs.path;
   
-  await execFile(binPath, args);
+  await execFile(binPath, args, { timeout: 2000 })
 }
 
 function _removeHTMLFile(path) {
@@ -36,7 +36,7 @@ var generator = module.exports = {
   },
 
   createSlug: function(name) {
-    return slug(name);
+    return slug(name).toLowerCase();
   },
 
   generateHTML: function(slug, data) {

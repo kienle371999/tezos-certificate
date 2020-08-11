@@ -8,6 +8,7 @@ import * as fs from 'fs'
 require('dotenv').config({ path: require('find-config')('.env') })
 const tezosNode = process.env.TEZOS_NODE
 const RPCEnpoint = process.env.RPC_ENDPOINT
+const ContractEnpoint = process.env.CONTRACT_ENDPOINT
 
 class TezosGateway {
 
@@ -105,6 +106,16 @@ class TezosGateway {
         const result = await TezosNodeWriter.sendContractInvocationOperation(tezosNode, account.key, contractAddress, 
         10000, 100000, '', 1000, 100000, '', '{"string": "Cryptonomicon"}', TezosParameterFormat.Micheline)
         console.log(result.operationGroupID)
+    }
+
+    public async getContractDetail(contractAddress) {
+        const url = ContractEnpoint.concat(`${contractAddress}/storage`)
+        console.log("TezosGateway -> getContractDetail -> url", url)
+        const response = await fetch(url)
+        const contractDetail = response.json()
+        console.log("TezosGateway -> contractDetail", contractDetail)
+
+        return contractDetail
     }
 
     public readFile() {

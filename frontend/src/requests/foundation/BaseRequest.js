@@ -9,15 +9,15 @@ export default class BaseRequest {
   }
 
   delete (url, params = {}) {
-    return this._doSelfRequest('delete', url, { params });
+    return this._doSelfRequest('DELETE', url, { params });
   }
 
   put (url, data = {}) {
-    return this._doSelfRequest('put', url, { data });
+    return this._doSelfRequest('PUT', url, { data });
   }
 
   post (url, data = {}) {
-    return this._doSelfRequest('post', url, { data });
+    return this._doSelfRequest('POST', url, { data });
   }
 
   _doSelfRequest (method, url, paramsConfig) {

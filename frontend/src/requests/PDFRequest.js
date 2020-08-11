@@ -7,13 +7,14 @@ class PDFRequest extends BaseRequest {
     }
 
     initCertificate(params) {
+        console.log("PDFRequest -> initCertificate -> params", params)
         const url = this.getURL('/api/init-certificate-data')
         return this.post(url, params)
     }
 
-    createCertificatePDF(params) {
+    async createCertificatePDF() {
         const url = this.getURL('/api/create-certificate-pdf')
-        return this.get(url, params)
+        return this.get(url)
     }
 }
 

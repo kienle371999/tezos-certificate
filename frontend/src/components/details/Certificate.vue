@@ -18,25 +18,30 @@
           <td>{{ certificate.diploma_type }}</td>
           <td>{{ certificate.credential_number }}</td>
           <td class="action">
-            <button @click="getHash(index)">{{ "Detail" }}</button>
+            <button @click="getDetail(index)">{{ "Detail" }}</button>
           </td>
         </tr>
       </table>
     </div>
+    <certificate-modal v-if="certificateModal" :contractAddress="address" @close-modal="close"/>
   </div>
 </template>
 
 <script>
 import Home from '@/components/roots/Home.vue' 
+import CertificateModal from '@/components/modals/CertificateModal.vue'
 import ServerRequest from '@/requests/ServerRequest'
 
 export default {
   components: {
-    Home
+    Home,
+    CertificateModal
   },
   data() {
     return {
-      certificates: []
+      certificates: [],
+      certificateModal: false,
+      address: null
     }
   },
 created () {
@@ -49,10 +54,12 @@ created () {
     })
   },
   methods: {
-    getHash(index) {
-      const baseURL = process.env.VUE_APP_TEZOS_URL
-      const url = baseURL.concat(this.certificates[index].blockchain_hash)
-      window.open(url)
+    getDetail(index) {
+      this.address = this.certificates[index].blockchain_hash
+      this.certificateModal = true
+    },
+    close() {
+      this.certificateModal = false
     }
   },
 }
