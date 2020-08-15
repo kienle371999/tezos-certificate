@@ -47,7 +47,6 @@ app.post('/api/broadcast-certificate', async function(req, res) {
 })
 
 app.post('/api/get-contract-detail', async function(req, res) {
-    console.log('------------')
     const contractAddress = req.body.contractAddress
     console.log("contractAddress", contractAddress)
     const result = await TezosGateway.getInstance().getContractDetail(contractAddress)

@@ -31,11 +31,14 @@ class CertificateService {
         }
     }
 
-    static async getHash({ params }) {
+    static async getCertificateToString({ params }) {
         const { email } = params
-        const certificate = await Certificate.findBy('email', email) 
-        const hash = await Hash.make(certificate.toString())
-        return hash
+        const certificate = await Certificate.query()
+                                            .select('id', 'user_id', 'name', 'identity', 'diploma_type', 'email', 'credential_number')
+                                            .where('email', email)
+                                            .fetch()
+        console.log("getCertificateToString -> certificate", certificate)
+        return JSON.stringify(certificate)
     }
 
     static async createSignature({ params }) {

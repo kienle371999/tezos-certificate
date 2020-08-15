@@ -18,8 +18,8 @@ class ServerRequest extends BaseRequest {
         return this.get(url)
     }
 
-    async getHash(params) {
-        const url = this.getURL('/api/user/get-hash')
+    async getCertificateToString(params) {
+        const url = this.getURL('/api/user/get-certificate-string')
         return this.get(url, params)
     }
     async createSignature(params) {
@@ -50,6 +50,11 @@ class ServerRequest extends BaseRequest {
     async sendCertificateByMail(params) {
         const url = this.getURL('/api/send-mail-certificate')
         return this.post(url, params)
+    }
+
+    async getCertificateByCredential(params) {
+        const url = this.getURL('/api/user/get-certificate-credential')
+        return this.get(url, params)
     }
 }
 

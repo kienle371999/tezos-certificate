@@ -33,5 +33,6 @@ Route.group(() => {
 //GET
 Route.group(() => {
 Route.get('user/get-information', 'CertificateController.getCertificate').middleware(['auth'])
-Route.get('user/get-hash', 'CertificateController.getCertificateHash').middleware(['auth'])
+Route.get('user/get-certificate-string', 'CertificateController.getCertificateToString').middleware(['auth'])
+Route.get('user/get-certificate-credential', 'CertificateController.getCertificateByCredential').middleware(['auth'])
 }).prefix('api')

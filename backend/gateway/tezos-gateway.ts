@@ -78,7 +78,7 @@ class TezosGateway {
         console.log("TezosGateway -> initContract -> keyStore", keyStore)
 
         const nodeResult = await TezosNodeWriter.sendContractOriginationOperation(tezosNode, 
-        keyStore, 0, undefined, 100000, '', 1000, 100000, contract.toString(), storage, TezosParameterFormat.Michelson)
+        keyStore, 0, undefined, 100000, '', 1000, 100000, contract, storage, TezosParameterFormat.Michelson)
         const groupid = nodeResult['operationGroupID'].replace(/\"/g, '').replace(/\n/, '') 
         console.log(`Injected operation group id ${groupid}`)
         return groupid
@@ -104,7 +104,7 @@ class TezosGateway {
         const account = await this.initAccount()
     
         const result = await TezosNodeWriter.sendContractInvocationOperation(tezosNode, account.key, contractAddress, 
-        10000, 100000, '', 1000, 100000, '', '{"string": "Cryptonomicon"}', TezosParameterFormat.Micheline)
+        10000, 1000000, '', 1000, 100000, '', '{"string": "Cryptonomicon"}', TezosParameterFormat.Micheline)
         console.log(result.operationGroupID)
     }
 
@@ -132,10 +132,14 @@ class TezosGateway {
     }
 
     public async authenticateData(signature, data, publicKey) {
-        const authentication = await TezosWalletUtil.checkSignature(signature, data, publicKey)
-        console.log("authenticateData -> authentication", authentication)
-
-        return authentication
+        try {
+            const authentication = await TezosWalletUtil.checkSignature(signature, data, publicKey)
+            console.log("authenticateData -> authentication", authentication)
+            return { 'result': authentication }
+        }
+        catch(err) {
+            console.log("TezosGateway -> authenticateData -> err", err)
+        }
     }
 }
 

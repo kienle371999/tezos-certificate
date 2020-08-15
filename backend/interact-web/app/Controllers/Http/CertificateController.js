@@ -37,7 +37,7 @@ class CertificateController {
         
         return response.ok(result)
     }
-    async getCertificateHash({ request, response }) {
+    async getCertificateToString({ request, response }) {
         const rules = {
             email: 'required|email'
         }
@@ -48,8 +48,8 @@ class CertificateController {
             return response.badRequest(validation.messages())
         }
 
-        const hash = await CertificateService.getHash({ params: request.all() })
-        return response.ok(hash)
+        const res = await CertificateService.getCertificateToString({ params: request.all() })
+        return response.ok(res)
     }
 
     async createSignature({ request, response }) {
@@ -64,11 +64,6 @@ class CertificateController {
             return response.badRequest(validation.messages())
         }
 
-        const checkSign = await Certificate.findBy('signature', signature) 
-        if(checkSign) {
-            return response.badRequest({ error: 'Duplicated Signature' })
-        }
-        
         const checkValid = await Certificate.findBy('email', email)
         if(checkValid['is_signed']) {
             return response.badRequest({ error: 'Certificate was signed' })
@@ -98,6 +93,28 @@ class CertificateController {
 
         await CertificateService.createBlockchainHash({ params: request.all() })
         return response.ok({ message: 'Done' })
+    }
+
+    async getCertificateByCredential({ request, response }) {
+        const rules = {
+            credential_number: 'required|string'
+        }
+
+        const { credential_number } = request.all()
+        const validation = await validate({ credential_number }, rules)
+        if(!validation) {
+            return response.badRequest(validation.messages())
+        }
+        const res = await Certificate.findBy('credential_number', credential_number)
+        console.log("getCertificateByCredential -> res", res)
+
+        const result = await Certificate.query()
+                                        .select('name', 'identity', 'diploma_type', 'email', 'credential_number', 'blockchain_hash', 'is_broadcasted')
+                                        .where('credential_number', credential_number)
+                                        .fetch()
+        console.log("getCertificateByCredential -> result", result)
+        
+        return result
     }
 }
 

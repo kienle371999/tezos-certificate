@@ -8,6 +8,7 @@ import Register from '@/components/roots/Register.vue'
 import Information from '@/components/details/Information.vue'
 import Transaction from '@/components/details/Transaction.vue'
 import Certificate from '@/components/details/Certificate.vue'
+import Authentication from '@/components/details/Authentication.vue'
 
 
 Vue.use(VueRouter)
@@ -63,6 +64,11 @@ const authentication = ((to, from, next) => {
     name: 'Certificate',
     component: Certificate,
     beforeEnter: authentication
+  },
+  {
+    path: '/authentication',
+    name: 'Authentication',
+    component: Authentication,
   },
 ]
 

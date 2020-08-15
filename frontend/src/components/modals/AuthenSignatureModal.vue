@@ -4,9 +4,9 @@
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
-            <div class="modal-header">{{ "Sign Certificate" }}</div>
+            <div class="modal-header">{{ "Authenticate Signature" }}</div>
             <div class="modal-body">
-              <input type="text" v-model="key" class="key" placeholder="Private Key"/>
+              <input type="text" v-model="key" class="key" placeholder="Public Key"/>
               <textarea name="signature" 
               :value="signature" 
               cols="30" rows="5"
@@ -31,12 +31,14 @@ import BlockchainRequest from '@/requests/BlockchainRequest'
 export default {
   data() {
     return {
-      key: null,
-      signature: null,
-      currentCertificate: null
+      key: null
     }
   },
   props: {
+    signature: {
+      type: String,
+      required: true
+    },
     email: {
       type: String,
       required: true
@@ -45,16 +47,21 @@ export default {
   methods: {
     async submit() {
       const certificate = await ServerRequest.getCertificateToString({ email: this.email })
-      console.log("submit -> certificate", certificate)
-      const signature = await BlockchainRequest.signCertificate({ privateKey: this.key, data: JSON.stringify(certificate[0]) })
-      const currentCertificate = await ServerRequest.createSignature({ email: this.email, signature: signature })
-      this.currentCertificate = currentCertificate
-      this.signature = signature
-      window.EventBus.$emit('SUCCESS', 'Success')
+      const authenCertificate = await BlockchainRequest.authenticateCertificate({
+        signature: this.signature,
+        data: JSON.stringify(certificate[0]),
+        publicKey: this.key
+      })
+
+      if(authenCertificate.result) {
+        window.EventBus.$emit('SUCCESS', 'Valid Certificate')
+      }
+      else {
+        window.EventBus.$emit('ERROR', 'Invalid Certificate')
+      }
     },
     close() {
-      this.$emit('close-modal', this.key, this.currentCertificate)
-      this.$emit('disable')
+      this.$emit('close-sign-modal')
     }
   },
 }

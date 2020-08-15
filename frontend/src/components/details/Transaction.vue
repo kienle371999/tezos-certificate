@@ -83,17 +83,22 @@ export default {
     async broadcast() {
       const blockchainHash = await BlockchainRequest.broadcastCertificate({ privateKey: this.privateKey, 
       certificate: this.currentCertificate })
-
-      await ServerRequest.storeHash({ email: this.email, blockchain_hash: blockchainHash[0].receiver })
       await ServerRequest.initCertificate({ courseData: this.currentCertificate })
-      await ServerRequest.createCertificatePDF()
+
+      setTimeout(async () => {
+        await ServerRequest.createCertificatePDF()
+      }, 3000);
 
       setTimeout(async () => {
         await ServerRequest.stopCertificatePDF()
+      }, 6000)
+
+      setTimeout(async () => {
         await ServerRequest.sendCertificateByMail({ name: this.currentCertificate.name, email: "kienle371999@gmail.com" })
+        await ServerRequest.storeHash({ email: this.email, blockchain_hash: blockchainHash[0].receiver })
         this.$set(this.broadcastDisabled, this.index, true)
         window.EventBus.$emit('SUCCESS', 'Success')
-      }, 5000)
+      }, 9000);
     }
   },
   mouted() {

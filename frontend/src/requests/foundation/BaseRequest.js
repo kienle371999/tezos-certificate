@@ -40,6 +40,7 @@ export default class BaseRequest {
       axios(config)
         .then(response => {
           if (!response.data) {
+            console.log('oooo', response)
             window.EventBus.$emit('ERROR', 'Invalid response format: ' + response);
             return;
           }
