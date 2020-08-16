@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Install particular dependencies for entire directories",
   "scripts": {
-    "heroku-prebuild": "pkg-config --cflags --libs libusb-1.0",
+    "heroku-prebuild": "sudo apt-get install libmagickwand-dev",
     "install": "make install-dependencies"
   },
   "engines": {
