@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Install particular dependencies for entire directories",
   "scripts": {
-    "heroku-prebuild": "sudo apt-get install libmagickwand-dev",
+    "heroku-prebuild": "apt-get install libmagickwand-dev",
     "install": "make install-dependencies"
   },
   "engines": {
