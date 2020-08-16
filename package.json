@@ -1,0 +1,11 @@
+{
+  "name": "tezos-certificate",
+  "version": "1.0.0",
+  "description": "Install particular dependencies for entire directories",
+  "scripts": {
+    "install": "make install-dependencies"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kienle371999/tezos-certificate.git"
+}
