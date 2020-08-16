@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Install particular dependencies for entire directories",
   "scripts": {
-    "install": "make install-dependencies"
+    "heroku-prebuild": "make install-dependencies"
   },
   "engines": {
     "node": "12.x"
