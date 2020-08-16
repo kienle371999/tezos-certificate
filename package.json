@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Install particular dependencies for entire directories",
   "scripts": {
+    "heroku-prebuild": "pkg-config --cflags --libs /usr/local/Cellar/libusb/1.0.20/lib/pkgconfig/libusb-1.0.pc",
     "install": "make install-dependencies"
   },
   "engines": {
