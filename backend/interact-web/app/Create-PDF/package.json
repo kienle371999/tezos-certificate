@@ -10,7 +10,7 @@
     "generator"
   ],
   "scripts": {
-    "preinstall": "npx npm-force-resolutions"
+    "postinstall": "npx npm-force-resolutions"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
