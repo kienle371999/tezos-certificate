@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Install particular dependencies for entire directories",
   "scripts": {
-    "prerestart": "cd frontend && npm run build",
     "start": "node server.js",
     "install": "make install-dependencies"
   },
