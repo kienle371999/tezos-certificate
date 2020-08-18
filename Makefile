@@ -3,3 +3,4 @@ convert-contract:
 install-dependencies:
 	cd backend/interact-web && rm -rf node_modules && npm install
 	cd backend/interact-web/app/Create-PDF && rm -rf node_modules && npm install
+	cd frontend && npm run build
