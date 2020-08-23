@@ -84,7 +84,7 @@ export default {
       const blockchainHash = await BlockchainRequest.broadcastCertificate({ privateKey: this.privateKey, 
       certificate: this.currentCertificate })
       await ServerRequest.initCertificate({ courseData: this.currentCertificate })
-
+      
       setTimeout(async () => {
         await ServerRequest.createCertificatePDF()
       }, 3000);

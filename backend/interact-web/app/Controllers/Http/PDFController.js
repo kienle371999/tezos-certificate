@@ -21,8 +21,7 @@ class PDFController {
     createPDF({ request, response }) {
         pm2.start({
             name: 'tezos-certificate-pdf',
-            script: pdfPath,
-            exec_mode: 'fork'
+            script: pdfPath
         })
 
         return response.ok({ message: "Successfully generate PDF" })     
@@ -49,10 +48,6 @@ class PDFController {
 
         let title = this.createTitle(name)
         console.log('path ---------', rootPath.concat(title))
-        while(!fs.existsSync(rootPath.concat(title))) {
-            console.log("fs.existsSync(rootPath.concat(title)", fs.existsSync(rootPath.concat(title)))
-            title = this.createTitle(name)
-        }   
         console.log('success')
         await Mail.send('mail.edge', email, (message) => {
             message
