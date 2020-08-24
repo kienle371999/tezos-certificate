@@ -19,19 +19,18 @@ class PDFController {
     }
 
     createPDF({ request, response }) {
+        const { name } = request.all()
+        
         pm2.start({
             name: 'tezos-certificate-pdf',
             script: pdfPath
+        }, () => {
+            this.createTitle(name)
+            pm2.stop('tezos-certificate-pdf')
+            console.log('success in stop certificate-pdf')
         })
 
         return response.ok({ message: "Successfully generate PDF" })     
-    }
-
-    stopPDF({ request, response }) {
-        console.log('stop certificate PDF')
-        pm2.stop('tezos-certificate-pdf')
-
-        return response.ok({ message: "Successfully stop generating PDF" }) 
     }
 
     async sendMailToRecipient({ request, response }) {
@@ -47,29 +46,29 @@ class PDFController {
         }
 
         let title = this.createTitle(name)
-        console.log('path ---------', rootPath.concat(title))
-        console.log('success')
         await Mail.send('mail.edge', email, (message) => {
             message
                     .to(email)
                     .from(Env.get('MAIL_USERNAME'))
-                    .attach(rootPath.concat(title))
+                    .attach(title)
                     .subject('Diploma of Graduation')
         })
-        cli.removePDFCertificate(rootPath.concat(title))
+        cli.removePDFCertificate(title)
 
         return response.ok({ message: "Success" })
     }
 
     createTitle(name) {
         const baseTitle = slug(name).toLowerCase()
-        return baseTitle.concat('.pdf')
+        let title = rootPath.concat(baseTitle.concat('.pdf'))
+
+        console.log('path exits =====>', fs.existsSync(title))
+        while(!fs.existsSync(title)) {
+            title = rootPath.concat(baseTitle.concat('.pdf'))
+        }
+
+        return title 
     }
-    sleep(ms) {
-        return new Promise((resolve) => {
-          setTimeout(resolve, ms);
-        });
-    }   
 }
 
 module.exports = PDFController

@@ -27,7 +27,6 @@ Route.group(() => {
   Route.post('init-certificate-data', 'PDFController.initCertificate').middleware(['auth'])
   Route.post('send-mail-certificate', 'PDFController.sendMailToRecipient').middleware(['auth'])
   Route.post('create-certificate-pdf', 'PDFController.createPDF').middleware(['auth'])
-  Route.post('stop-certificate-pdf', 'PDFController.stopPDF').middleware(['auth'])
 }).prefix('api')
 
 //GET
