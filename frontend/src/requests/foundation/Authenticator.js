@@ -1,6 +1,5 @@
-import _ from 'lodash';
-import axios from 'axios';
-import Vue from 'vue';
+import axios from 'axios'
+import Vue from 'vue'
 
 class Authenticator {
   constructor () {
@@ -39,26 +38,8 @@ class Authenticator {
   }
 
   logOut () {
-    const headers = {
-      'Accept': 'application/json',
-      'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + this._user.token
-    };
-    const config = _.assign({
-      method: 'post',
-      url: `${process.env.VUE_APP_SERVER_URL}/api/user/logout`,
-      headers
-    });
     localStorage.removeItem('user')
-    return new Promise((resolve) => {
-      axios(config)
-      .then(response => {
-        resolve(response.data)
-      })
-      .catch(err => {
-        console.log(err)
-      });
-    })
+    return { message: "Done" }
   }
 }
 

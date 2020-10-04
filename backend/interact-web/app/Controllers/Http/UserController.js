@@ -4,7 +4,6 @@ const { validate } = use('Validator')
 const User = use('App/Models/User')
 const UserService = use('App/Services/UserService')
 
-
 class UserController {
     async logIn({ request, response, auth }) {
         const rules = {
@@ -20,7 +19,6 @@ class UserController {
         
         try {
             const user = await auth.attempt(email, password)
-            await UserService.addToken({ params: { email, token: user.token, type: 'bearer' } })
             return response.ok(user)
         } catch (error) {
             return response.badRequest({ error: 'Invalid email or password' })
@@ -46,12 +44,6 @@ class UserController {
         const result = await UserService.registerUser({ params: request.all() })
         return response.json(result)
     }
-    async logOut({ request, response, auth }) {
-        const user = await auth.getUser()
-        await auth.authenticator('jwt').revokeTokensForUser(user)
-
-        return response.ok({ message: 'Done' })
-    }    
 }
 
 module.exports = UserController

@@ -40,7 +40,6 @@ export default class BaseRequest {
       axios(config)
         .then(response => {
           if (!response.data) {
-            console.log('oooo', response)
             window.EventBus.$emit('ERROR', 'Invalid response format: ' + response);
             return;
           }
@@ -48,18 +47,18 @@ export default class BaseRequest {
         })
         .catch(err => {
           if (err.response.status === 401) {
-            return auth.removeUser();
+            return auth.removeUser()
           }
-          window.EventBus.$emit('ERROR', err.response.data.error);
+          window.EventBus.$emit('ERROR', err.response.data.error)
         });
     });
   }
 
   _getAuthToken () {
     if (!auth._user) {
-      return '';
+      return ''
     }
 
-    return auth._user.token;
+    return auth._user.token
   }
 }

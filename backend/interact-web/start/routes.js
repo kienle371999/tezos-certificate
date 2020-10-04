@@ -20,7 +20,6 @@ const Route = use('Route')
 Route.group(() => {
   Route.post('user/login', 'UserController.logIn')
   Route.post('user/register-user', 'UserController.registerUser')
-  Route.post('user/logout', 'UserController.logOut').middleware(['auth'])
   Route.post('user/generate-information', 'CertificateController.generate').middleware(['auth'])
   Route.post('user/create-signature', 'CertificateController.createSignature').middleware(['auth'])
   Route.post('user/store-hash', 'CertificateController.storeBlockchainHash').middleware(['auth'])
