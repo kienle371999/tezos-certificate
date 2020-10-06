@@ -8,7 +8,7 @@ const app = express()
 const port = process.env.API_PORT
 
 app.use(cors())
-app.use(bodyParser())
+app.use(bodyParser.json())
 
 app.listen(port, function() {
     console.log(`Server is listened on port ${port}`)

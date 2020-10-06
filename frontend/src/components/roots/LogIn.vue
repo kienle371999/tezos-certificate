@@ -51,6 +51,7 @@ export default {
       })
 
       if(result) {
+        while(!localStorage.getItem('user')) 
         window.EventBus.$emit('SUCCESS', 'Success')
         this.$router.push('/account')
       }

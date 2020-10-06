@@ -14,12 +14,8 @@ import Authentication from '@/components/details/Authentication.vue'
 Vue.use(VueRouter)
 const storedUser = localStorage.getItem('user')
 const isAuthenticated = storedUser ? true : false
-const authentication = ((to, from, next) => {
-  if (to.name !== 'LogIn' && !isAuthenticated) next({ name: 'LogIn' })
-  else next({ replace: true })
-})
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'LogIn',
@@ -29,13 +25,17 @@ const authentication = ((to, from, next) => {
     path: '/home',
     name: 'Home',
     component: Home,
-    beforeEnter: authentication
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/account',
     name: 'Account',
     component: Account,
-    beforeEnter: authentication
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/register',
@@ -51,24 +51,30 @@ const authentication = ((to, from, next) => {
     path: '/information',
     name: 'Information',
     component: Information,
-    beforeEnter: authentication
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/transaction',
     name: 'Transaction',
     component: Transaction,
-    beforeEnter: authentication
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/certificate',
     name: 'Certificate',
     component: Certificate,
-    beforeEnter: authentication
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/authentication',
     name: 'Authentication',
-    component: Authentication,
+    component: Authentication
   },
 ]
 
@@ -76,6 +82,17 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(route => route.meta.requiresAuth)) {
+    if (isAuthenticated) {
+      next()
+    } else {
+      next({ name: 'LogIn' })
+    }
+  }
+  next()
 })
 
 export default router
