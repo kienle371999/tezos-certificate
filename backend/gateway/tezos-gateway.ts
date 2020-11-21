@@ -78,7 +78,7 @@ class TezosGateway {
         console.log("TezosGateway -> initContract -> keyStore", keyStore)
 
         const nodeResult = await TezosNodeWriter.sendContractOriginationOperation(tezosNode, 
-        keyStore, 0, undefined, 100000, '', 1000, 100000, contract, storage, TezosParameterFormat.Michelson)
+        keyStore, 0, undefined, 200000, '', 2000, 200000, contract, storage, TezosParameterFormat.Michelson)
         const groupid = nodeResult['operationGroupID'].replace(/\"/g, '').replace(/\n/, '') 
         console.log(`Injected operation group id ${groupid}`)
         return groupid
@@ -112,6 +112,7 @@ class TezosGateway {
         const url = ContractEnpoint.concat(`${contractAddress}/storage`)
         console.log("TezosGateway -> getContractDetail -> url", url)
         const response = await fetch(url)
+        console.log("TezosGateway -> getContractDetail -> response", response)
         const contractDetail = response.json()
         console.log("TezosGateway -> contractDetail", contractDetail)
 

@@ -38,7 +38,8 @@
 import Home from '@/components/roots/Home.vue'
 import ServerRequest from '@/requests/ServerRequest'
 import SignatureModal from '@/components/modals/SignatureModal.vue'
-import BlockchainRequest from '@/requests/BlockchainRequest' 
+import BlockchainRequest from '@/requests/BlockchainRequest'
+import PDFRequest from '@/requests/PDFRequest' 
 
 export default {
   components: {
@@ -81,20 +82,12 @@ export default {
       this.$set(this.signDisabled, this.index, true)
     },
     async broadcast() {
-      const blockchainHash = await BlockchainRequest.broadcastCertificate({ privateKey: this.privateKey, 
-      certificate: this.currentCertificate })
-      await ServerRequest.initCertificate({ courseData: this.currentCertificate })
-      
-      setTimeout(async () => {
-        await ServerRequest.createCertificatePDF({ name: this.currentCertificate.name })
-      }, 3000)
-
-      setTimeout(async () => {
-        await ServerRequest.sendCertificateByMail({ name: this.currentCertificate.name, email: "kienle371999@gmail.com" })
-        await ServerRequest.storeHash({ email: this.email, blockchain_hash: blockchainHash[0].receiver })
-        this.$set(this.broadcastDisabled, this.index, true)
-        window.EventBus.$emit('SUCCESS', 'Success')
-      }, 8000)
+      const blockchainHash = await BlockchainRequest.broadcastCertificate({ privateKey: this.privateKey, certificate: this.currentCertificate })
+      await PDFRequest.createCertificatePDF({ data: this.currentCertificate })
+      await ServerRequest.sendCertificateByMail({ name: this.currentCertificate.name, email: "dongky6776@gmail.com" })
+      await ServerRequest.storeHash({ email: this.email, blockchain_hash: blockchainHash[0].receiver })
+      this.$set(this.broadcastDisabled, this.index, true)
+      window.EventBus.$emit('SUCCESS', 'Success')
     }
   },
   mouted() {

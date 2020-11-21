@@ -174,7 +174,7 @@ export default {
   color: #FFFFFF;
   font-size: 15px;
   border-radius: 3px;
-  margin-right: 27px;
+  margin-right: 88px;
   cursor: pointer; 
   margin-left: 5px;
 }

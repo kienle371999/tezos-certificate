@@ -12,6 +12,11 @@
         "interpreter": "ts-node",
         "cwd": "backend",
         "watch": true
+      },
+      {
+        "name": "tezos-pdf",
+        "script": "server.js",
+        "cwd": "create-PDF"
       }
     ]
 }

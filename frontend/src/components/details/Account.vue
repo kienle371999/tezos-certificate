@@ -43,7 +43,7 @@
         const fileTitle = 'generated_key.txt'
         const blob = new Blob([`privateKey: ${this.neededKey.privateKey}\n`,
                               `publicKey: ${this.neededKey.publicKey}\n`, 
-                              `publicKeyHash: ${this.neededKey.publicKeyHash}\n`], { type: 'text/plain;charset=utf-8' })
+                              `address: ${this.neededKey.publicKeyHash}\n`], { type: 'text/plain;charset=utf-8' })
         saveAs(blob, fileTitle)
         this.downloadDisabled = true
       }

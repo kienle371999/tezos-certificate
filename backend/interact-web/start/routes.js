@@ -23,9 +23,7 @@ Route.group(() => {
   Route.post('user/generate-information', 'CertificateController.generate').middleware(['auth'])
   Route.post('user/create-signature', 'CertificateController.createSignature').middleware(['auth'])
   Route.post('user/store-hash', 'CertificateController.storeBlockchainHash').middleware(['auth'])
-  Route.post('init-certificate-data', 'PDFController.initCertificate').middleware(['auth'])
   Route.post('send-mail-certificate', 'PDFController.sendMailToRecipient').middleware(['auth'])
-  Route.post('create-certificate-pdf', 'PDFController.createPDF').middleware(['auth'])
 }).prefix('api')
 
 //GET
@@ -34,3 +32,5 @@ Route.get('user/get-information', 'CertificateController.getCertificate').middle
 Route.get('user/get-certificate-string', 'CertificateController.getCertificateToString').middleware(['auth'])
 Route.get('user/get-certificate-credential', 'CertificateController.getCertificateByCredential').middleware(['auth'])
 }).prefix('api')
+
+Route.any('*', ({ view }) =>  view.render('index'))

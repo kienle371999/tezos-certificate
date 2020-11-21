@@ -64,11 +64,6 @@ class CertificateController {
             return response.badRequest(validation.messages())
         }
 
-        const checkValid = await Certificate.findBy('email', email)
-        if(checkValid['is_signed']) {
-            return response.badRequest({ error: 'Certificate was signed' })
-        }
-
         const result = await CertificateService.createSignature({ params: request.all() })
         console.log("createSignature -> result", result)
         return response.ok(result)

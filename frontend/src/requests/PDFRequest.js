@@ -5,16 +5,10 @@ class PDFRequest extends BaseRequest {
         const baseUrl = process.env.VUE_APP_PDF_URL
         return baseUrl.concat(url)
     }
-
-    initCertificate(params) {
-        console.log("PDFRequest -> initCertificate -> params", params)
-        const url = this.getURL('/api/init-certificate-data')
-        return this.post(url, params)
-    }
-
-    async createCertificatePDF() {
+    async createCertificatePDF(params) {
+        console.log("PDFRequest -> createCertificatePDF -> params", params)
         const url = this.getURL('/api/create-certificate-pdf')
-        return this.get(url)
+        return this.post(url, params)
     }
 }
 

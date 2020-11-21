@@ -31,8 +31,6 @@
     "adonis-validator": "^1.0.2",
     "fs": "0.0.1-security",
     "mysql": "^2.18.1",
-    "pm2": "^4.4.0",
-    "restart": "^2.0.0",
     "slug": "^0.4.2"
   },
   "devDependencies": {},
