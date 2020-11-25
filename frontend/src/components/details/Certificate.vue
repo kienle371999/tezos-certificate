@@ -55,8 +55,10 @@ created () {
   },
   methods: {
     getDetail(index) {
+      console.log("getDetail -> index", index)
       this.address = this.certificates[index].blockchain_hash
       this.certificateModal = true
+      console.log('iiiiiiiii', this.certificateModal)
     },
     close() {
       this.certificateModal = false
@@ -106,8 +108,5 @@ button {
   height: 40px;
   position: relative;
   cursor: pointer;
-}
-button.disable {
-  background: #625D5D;
 }
 </style>

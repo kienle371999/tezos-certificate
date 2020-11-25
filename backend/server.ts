@@ -16,19 +16,19 @@ app.listen(port, function() {
 
 app.get('/api/init-account', async function(req, res) {
     const result = await TezosGateway.getInstance().generateKey()
-    return res.status(200).send(result)
+    return res.status(result.code).json(result.data)
 })
 
 app.get('/api/active-account', async function(req, res) {
     const result = await TezosGateway.getInstance().activateAccount()
-    return res.status(200).send(result)
+    return res.status(result.code).json(result.data)
 })
 
 app.post('/api/sign-data', async function(req, res) {
     const privateKey = req.body.privateKey
     const data = req.body.data
     const result = await TezosGateway.getInstance().signData(privateKey, data)
-    return res.status(200).send(result)
+    return res.status(result.code).json(result.data)
 })
 
 app.post('/api/authenticate-data', async function(req, res) {
@@ -36,21 +36,21 @@ app.post('/api/authenticate-data', async function(req, res) {
     const data = req.body.data
     const publicKey = req.body.publicKey
     const result = await TezosGateway.getInstance().authenticateData(signature, data, publicKey)
-    return res.status(200).send(result)
+    return res.status(result.code).json(result.data)
 })
 , 
 app.post('/api/broadcast-certificate', async function(req, res) {
     const privateKey = req.body.privateKey
     const certificate = req.body.certificate
-    const result = await TezosGateway.getInstance().getContractHash(privateKey, certificate)
-    return res.status(200).send(result)
+    const result = await TezosGateway.getInstance().initSmartCotract(privateKey, certificate)
+    return res.status(result.code).json(result.data)
 })
 
 app.post('/api/get-contract-detail', async function(req, res) {
     const contractAddress = req.body.contractAddress
     console.log("contractAddress", contractAddress)
     const result = await TezosGateway.getInstance().getContractDetail(contractAddress)
-    return res.status(200).send(result)
+    return res.status(result.code).json(result.data)
 })
 
 

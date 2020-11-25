@@ -45,13 +45,17 @@ export default {
       required: true
     },
   },
-  async created() {
+  created() {
     const baseURL = process.env.VUE_APP_TEZOS_URL
     const url = baseURL.concat(this.contractAddress)
     this.blockchainDirectory = url
-    const res = await BlockchainRequest.getContractDetail({ contractAddress: this.contractAddress })
-    this.contractDetail = res
-    this.dataReady = true
+    console.log('1234567', this.contractAddress)
+    BlockchainRequest.getContractDetail({ contractAddress: this.contractAddress })
+    .then(res => {
+      this.contractDetail = res
+      this.dataReady = true
+      console.log('hellloe1112')
+    })
   },
   methods: {
     close() {

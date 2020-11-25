@@ -85,7 +85,7 @@ export default {
       const blockchainHash = await BlockchainRequest.broadcastCertificate({ privateKey: this.privateKey, certificate: this.currentCertificate })
       await PDFRequest.createCertificatePDF({ data: this.currentCertificate })
       await ServerRequest.sendCertificateByMail({ name: this.currentCertificate.name, email: "dongky6776@gmail.com" })
-      await ServerRequest.storeHash({ email: this.email, blockchain_hash: blockchainHash[0].receiver })
+      await ServerRequest.storeHash({ email: this.email, blockchain_hash: blockchainHash.contractHash })
       this.$set(this.broadcastDisabled, this.index, true)
       window.EventBus.$emit('SUCCESS', 'Success')
     }

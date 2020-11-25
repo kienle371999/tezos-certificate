@@ -1,29 +1,37 @@
-import { StoreType,
-        TezosParameterFormat,
-        TezosNodeWriter,
+import { TezosNodeWriter,
         TezosWalletUtil } from 'conseiljs'
+import { TezosToolkit } from '@taquito/taquito'
+import { InMemorySigner } from '@taquito/signer'
+        
 import fetch from 'node-fetch'
 import * as fs from 'fs'
+import * as Handle from '../error/errorHandle'
 
 require('dotenv').config({ path: require('find-config')('.env') })
-const tezosNode = process.env.TEZOS_NODE
-const RPCEnpoint = process.env.RPC_ENDPOINT
+const TezosNode = process.env.TEZOS_NODE
 const ContractEnpoint = process.env.CONTRACT_ENDPOINT
 
+const Tezos = new TezosToolkit(TezosNode)
+const genericCode = require('../michelson/Code.tz.json')
+        
 class TezosGateway {
-
     public static getInstance() {
         return new TezosGateway()
     }
 
     public async generateKey() {
-        const mnemonic = TezosWalletUtil.generateMnemonic()
-        const generatedkey = await TezosWalletUtil.unlockIdentityWithMnemonic(mnemonic)
-        
-        return generatedkey
+        try {
+            const mnemonic = TezosWalletUtil.generateMnemonic()
+            const generateKey = await TezosWalletUtil.unlockIdentityWithMnemonic(mnemonic, '')
+
+            return Handle.Success(generateKey)
+        }
+        catch(error) {
+            return Handle.ServerError(error.message)
+        }
     }
 
-    public async initAccount() {
+    private async initAccount() {
         const faucetAccount = {
             "mnemonic": [
               "also",
@@ -55,92 +63,86 @@ class TezosGateway {
     }
 
     public async activateAccount() {
-        const account = await this.initAccount()
-        const accountDetail = await TezosNodeWriter.sendIdentityActivationOperation(tezosNode, account.key, account.secret)
-        console.log("activateAccount -> accountDetail", accountDetail)
-
-        return accountDetail
-    }
-
-    public async initContract(privateKey, certificate) {
-        console.log("TezosGateway -> initContract -> certificate", certificate)
-        
-        const storage = `{ Elt "Credential Number" "${certificate.credential_number}"; 
-        Elt "Diploma Type" "${certificate.diploma_type}"; 
-        Elt "Identity" "${certificate.identity}"; Elt "Name" "${certificate.name}"; 
-        Elt "Signature" "${certificate.signature}" }`
-        
-        console.log("TezosGateway -> initContract -> storage", storage)
-        const contract = this.readFile()
-        console.log("TezosGateway -> initContract -> contract", contract)
-        
-        const keyStore = await TezosWalletUtil.restoreIdentityWithSecretKey(privateKey)
-        console.log("TezosGateway -> initContract -> keyStore", keyStore)
-
-        const nodeResult = await TezosNodeWriter.sendContractOriginationOperation(tezosNode, 
-        keyStore, 0, undefined, 200000, '', 2000, 200000, contract, storage, TezosParameterFormat.Michelson)
-        const groupid = nodeResult['operationGroupID'].replace(/\"/g, '').replace(/\n/, '') 
-        console.log(`Injected operation group id ${groupid}`)
-        return groupid
-    }
-
-    public async getContractHash(privateKey, certificate) {
-        const groupid = await this.initContract(privateKey, certificate)
-        const url = RPCEnpoint.concat(groupid)
-        console.log("TezosInteraction -> initContract -> url", url)
-        
-        let response = await fetch(url)
-        while (response.status == 404) {
-            response = await fetch(url)
-        }
-        const transactionDetail = await response.json()
-        console.log("getContractHash -> transactionDetail", transactionDetail)
-
-        return transactionDetail
-    }
-
-    public async invokeContract() {
-        const contractAddress = 'KT1HgsdV5qv78gdomfusKdrMcKJYV71DXZMs'
-        const account = await this.initAccount()
+        try {
+            const account = await this.initAccount()
+            const accountDetail = await TezosNodeWriter.sendIdentityActivationOperation(TezosNode, account.key, account.secret)
+            console.log("activateAccount -> accountDetail", accountDetail)
     
-        const result = await TezosNodeWriter.sendContractInvocationOperation(tezosNode, account.key, contractAddress, 
-        10000, 1000000, '', 1000, 100000, '', '{"string": "Cryptonomicon"}', TezosParameterFormat.Micheline)
-        console.log(result.operationGroupID)
+            return Handle.Success(accountDetail)
+        }
+        catch(error) {
+            return Handle.ServerError(error.message)
+        }
+    }
+
+    public async initSmartCotract(privateKey, certificate) {
+        try {
+            Tezos.setProvider({ rpc: TezosNode, signer: new InMemorySigner(privateKey)})
+            const storage = `{ Elt "Credential Number" "${certificate.credential_number}"; 
+            Elt "Diploma Type" "${certificate.diploma_type}"; 
+            Elt "Identity" "${certificate.identity}"; 
+            Elt "Name" "${certificate.name}"; 
+            Elt "Signature" "${certificate.signature}" }`
+            console.log("TezosGateway -> initSmartCotract -> storage", storage)
+    
+            const confirmedContract = await Tezos.contract.originate({
+                code: genericCode,
+                init: storage
+            })
+            
+            const contract = await confirmedContract.contract()
+            console.log("deploy -> contract", contract.address)  
+    
+            return Handle.Success({ contractHash: contract.address })
+        }
+        catch(error) {
+            return Handle.ServerError(error.message)
+        }
     }
 
     public async getContractDetail(contractAddress) {
-        const url = ContractEnpoint.concat(`${contractAddress}/storage`)
-        console.log("TezosGateway -> getContractDetail -> url", url)
-        const response = await fetch(url)
-        console.log("TezosGateway -> getContractDetail -> response", response)
-        const contractDetail = response.json()
-        console.log("TezosGateway -> contractDetail", contractDetail)
-
-        return contractDetail
-    }
-
-    public readFile() {
-        const content = fs.readFileSync('./michelson/Code.tz', { encoding:'utf8', flag:'r' })
-        return content
+        try {
+            const response = await fetch(ContractEnpoint.concat(`${contractAddress}/storage`))
+            if(response.status === 400) {
+                return Handle.BadRequest(`Can not find ${contractAddress} contract address`)
+            }
+            const detail = await response.json()
+            console.log("TezosGateway -> getContractDetail -> detail", detail)
+            return Handle.Success(detail)
+        }
+        catch(error) {
+            return Handle.ServerError(error)
+        }
     }
 
     public async signData(privateKey, data) {
-        const keyStore = await TezosWalletUtil.restoreIdentityWithSecretKey(privateKey)
-        const signature = await TezosWalletUtil.signText(keyStore, data)
-        console.log("TezosGateway -> signData -> signature", signature)
+        try {
+            const keyStore = await TezosWalletUtil.restoreIdentityWithSecretKey(privateKey)
+            const signature = await TezosWalletUtil.signText(keyStore, data)
+            console.log("TezosGateway -> signData -> signature", signature)
 
-        return signature
+            return Handle.Success(signature)
+        }
+        catch(error) {
+            return Handle.ServerError(error.message)
+        }
     }
 
     public async authenticateData(signature, data, publicKey) {
         try {
             const authentication = await TezosWalletUtil.checkSignature(signature, data, publicKey)
             console.log("authenticateData -> authentication", authentication)
-            return { 'result': authentication }
+            
+            return Handle.Success({ 'result': authentication })
         }
-        catch(err) {
-            console.log("TezosGateway -> authenticateData -> err", err)
+        catch(error) {
+            return Handle.ServerError(error.message)
         }
+    }
+
+    private readFile() {
+        const content = fs.readFileSync('./michelson/Code.tz', { encoding:'utf8', flag:'r' })
+        return content
     }
 }
 
