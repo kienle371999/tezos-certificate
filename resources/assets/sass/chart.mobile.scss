@@ -1,0 +1,72 @@
+@import "_variables";
+
+html, body {
+  font-family: $font_family_root !important;
+}
+body.chart-page {
+  background: 0C0F13;
+}
+
+.onchart-tv-logo.wrapper{
+  display: none;
+}
+
+body.chart-page .chart-container {
+  border: none;
+  background-color: #0C0F13;
+}
+
+.tv-side-toolbar {
+  border-right: 1px solid hsla(0,0%,100%,.1);
+}
+
+/* 隐藏底部缩放等操作按钮 */
+.chart-widget .control-bar-wrapper,
+.chart-widget .back-to-present{
+  display: none;
+}
+
+.tv-close-panel.top {
+  display: none;
+}
+
+.tv-close-panel.left {
+  border: 1px solid #c9cbcd;
+  left: 51px;
+}
+//.pane-legend .pane-legend-line {
+//  font-size: 1.2em !important;
+//}
+
+/* 小屏下显示全屏按钮 */
+@media only screen and (max-width: 340px) {
+  body .header-chart-panel .left .group.header-group-fullscreen {
+    display: inline-block !important;
+  }
+}
+
+body,.tv-side-toolbar,.chart-controls-bar,#footer-chart-panel {
+  background-color:#0C0F13 !important;
+}
+
+/* 小屏幕下的样式注入 */
+/* pane-legend 只显示高开低收 */
+.pane-legend .pane-legend-minbtn.apply-common-tooltip {
+  display: none;
+}
+.pane-legend .pane-legend-line.apply-overflow-tooltip.main {
+  display: none;
+}
+.pane-legend .pane-legend-line.pane-legend-wrap.study {
+  display: none;
+}
+.pane-controls {
+  display: none !important;
+}
+/* 隐藏全部弹窗 */
+.ui-draggable._tv-dialog {
+  display: none;
+}
+#loading-indicator {
+  background: #0C0F13 !important;
+}

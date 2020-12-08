@@ -1,0 +1,136 @@
+.market {
+  width: 302px;
+  float: left;
+  height: 100%;
+  color: #000;
+  font-family: "Nanum Gothic", sans-serif;
+  margin-left: 15.4px;
+
+  .font_open_sans {
+    font-family: "Open Sans", sans-serif;
+  }
+
+  .font_nanum_gothic {
+    font-family: "Nanum Gothic", sans-serif;
+  }
+
+  .top_market {
+    margin-top: 0px !important;
+  }
+  div.content {
+    width: 100%;
+
+    .title {
+      height: 36px;
+      line-height: 36px;
+      border-bottom: 2px solid rgb(222,227,235);
+      position: relative;
+      font-family: "Nanum Gothic", sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      padding-left: 20px;
+
+      &:before {
+        content     : " ";
+        width       : 8px;
+        height      : 8px;
+        background  : black;
+        display     : inline-block;
+        margin-right: 5px;
+      }
+
+    }
+    table {
+      width: 100%;
+      font-size: 12px;
+      font-family: "Nanum Gothic", sans-serif;
+      thead {
+        tr {
+          th {
+            height: 33px;
+            line-height: 33px;
+            border-bottom: 1px solid rgb(239,241,245);
+            font-weight: bold;
+            background-color: rgb(248,249,251);
+            font-size: 12px;
+            padding: 0px 10px;
+          }
+        }
+      }
+      tbody {
+        tr {
+          background: #ffffff;
+          height: 20px;
+          &.total {
+            font-weight: 600;
+            border-top: 2px solid rgb(222,227,235);
+            height: 36px;
+            line-height: 36px;
+            font-size: 12px !important;
+
+            td {
+              border: none;
+            }
+          }
+          td {
+            text-align: right;
+            height: 34px;
+            border-bottom: 1px solid rgb(239,241,245);
+            padding: 0px 10px;
+            font-family: "Open Sans", sans-serif;
+            color: black; 
+
+            &.coin {
+              text-align: left;
+              width: 90px;
+              color: #595959;
+              font-weight: bold;
+              color: black;
+              font-size: 13px;
+              padding-right: 0px;
+              img {
+                width: 13px;
+                margin-right: 5px;
+              }
+            }
+            &.price {
+              width: 84px;
+            }
+            &.date{
+              width: 150px;
+            }
+            &.grown {
+              color: #c52d5b;
+            }
+            &.down {
+              color: #414fdb;
+            }
+            &.black {
+              color: black;
+            }
+          }
+          &:not(.total){
+              &:hover {
+              td {
+                background: rgb(252,241,255);
+              }
+            }
+          }
+        }
+      }
+      /* Table has verticle border */
+      &.table_verticle_border {
+        tr {
+          td {
+            border-right: 1px solid #eff1f5;
+            &:last-child {
+              border-right: none;
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+}

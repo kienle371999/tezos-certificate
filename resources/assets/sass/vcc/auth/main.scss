@@ -1,0 +1,162 @@
+// Bootstrap
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+#app_auth{
+  //layout
+  .wrapper_auth{
+    .sub_content {
+      width: 600px;
+      min-height: 500px;
+      padding: 40px 60px 40px;
+      background: #fff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      text-align: center;
+      -webkit-transform: translate(-50%,-50%);
+      -moz-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+      -o-transform: translate(-50%,-50%);
+      transform: translate(-50%,-50%);
+      margin-top: -41px;
+      .icon-logo{
+        height: 40px;
+        margin-bottom: 15px;
+      }
+      .login-title{
+        font-size: 18px;
+        padding: 0 30px;
+        margin-bottom: 30px;
+        color: #000;
+      }
+    }
+  }
+  #footer_auth{
+    position: fixed;
+    width: 400px;
+    left: 50%;
+    bottom: 25px;
+    font-size: 16px;
+    margin-left: -200px;
+    text-align: center;
+    .link_page{
+      a{
+        padding: 10px;
+        color: #172e55;    
+      }
+    }
+    .copy_right{
+      margin-top: 10px;
+      color: #172e55;
+    }
+  }
+  //common
+  .vcc-title{
+    color: #172e55;
+    margin: 0 0 5px;
+    .icon-important{
+      padding-right: 5px;
+      color: #172e55;
+    }
+  }
+  .important-vcc{
+    padding-bottom: 15px;
+  }
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    padding:  0 30px;
+    label{
+      color: #172e55;
+      font-size: 13px;
+      font-weight: normal;
+      margin-bottom: 7px;
+      padding-left: 0;
+      text-transform: capitalize;
+    }
+    .input-form{
+      padding: 13px 12px;
+      text-align: center;
+      outline: none;
+      border: 1px solid #dee3eb;
+      height: 38px;
+      line-height: 38px;
+      width: 100%;
+    }
+    button{
+      height: 42px;
+      padding: 0;
+      font-size: 16px;
+      background: #008bf6;
+      color: #FFF;
+    }
+  }  
+}
+.modal {
+  .blue {
+    color: blue;
+  }
+  .red {
+    color: red;
+  }
+  .bold {
+    font-weight: bold;
+  }
+  font-size: 16px;
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    padding: 0;
+    label{
+      color: #172e55;
+      font-size: 14px;
+      font-weight: normal;
+      margin-bottom: 7px;
+      padding-left: 0;
+      text-transform: uppercase;
+    }
+    .input-form{
+      padding: 13px 12px;
+      text-align: center;
+      outline: none;
+      border: 1px solid #dee3eb;
+      height: 38px;
+      line-height: 38px;
+      width: 100%;
+
+    }
+  }
+  .btn {
+    height: 42px;
+    padding: 0;
+    font-size: 16px;
+    background: #008bf6;
+    color: #FFF;
+    border: 0;
+  }
+  .modal-dialog {
+    .modal-content {
+      padding: 10px 20px;
+    }
+  }
+}
+
+#guide-otp-modal {
+  .modal-dialog {
+    width: 400px;
+  }
+}
+
+#agreement-otp-modal {
+  font-size: 18px;
+  .modal-dialog {
+    width: 600px;
+    .modal-content {
+      .modal-body {
+        padding: 30px;
+        border: 1px solid #e5e5e5;
+      }
+    }
+  }
+}
+

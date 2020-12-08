@@ -1,0 +1,57 @@
+@charset "UTF-8";
+@import "_variables";
+
+html {
+  font-family: $font_family_root !important;
+}
+body {
+  border: none !important;
+  font-family: $font_family_root !important;
+}
+.header-chart-panel .button.fullscreen{position:absolute;right:53px;}
+.header-chart-panel .button.properties{position:absolute;right:5px;}
+
+.layout__area--top.header-chart-panel {
+  height: 43px !important;
+}
+.layout__area--center {
+  //top: 44px !important;  
+  &>:first-child {
+    border: none !important;
+  }
+}
+.tv-close-panel.top {
+  display: none;
+}
+.group.space-single.header-group-intervals {
+  padding: 1px 4px 0 0 !important;
+}
+.header-chart-panel .space-single {
+  padding: 1px 4px 0 0 !important;
+}
+
+.chart-page.on-widget {
+  border: 1px solid rgb(222, 227, 235);
+}
+._tv-dialog-content .main-properties {
+  max-height: 287px !important;
+}
+
+.favored-list-container span {
+  height: 16px;
+}
+
+.favored-list-container span.submenu {
+  height: 30px;
+}
+
+.bottom-widgetbar-content.backtesting .button, .header-chart-panel .button, .hotlist-controls .button, .symbol-edit-widget .button {
+  height: 16px;
+}
+
+.chart-markup-table.time-axis div{
+  top: -7px;
+}
+.chart-markup-table.time-axis +td canvas{
+  display: none;
+}

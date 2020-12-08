@@ -1,0 +1,127 @@
+// Color
+$color_blue_logo: rgb(0,144,235);
+$color_black_logo: rgb(45,45,45);
+
+$color_green_text: rgb(43,168,30);
+$color_red_text: rgb(238,74,74);
+
+$color_grey_text: rgb(51,51,51);
+$color_grey_body: rgb(248, 248, 248);
+$color_grey_head: rgb(247, 247, 247);
+$color_grey_border: rgb(193,193,193);
+$color_grey_border_light: rgba($color_grey_border, 0.5);
+$color_grey_button: rgb(230,230,230);
+$color_grey_icon: rgb(129,129,129);
+$color_grey_medal: rgb(119,123,140);
+$color_grey_icon_light: rgb(163, 163, 163);
+$color_grey_text_footer: rgb(180,180,180);
+$color_grey_select: rgb(229, 229, 229);
+$color_grey_table_row: rgba($color_grey_select , 0.3);
+$color_yellow_text : rgb(251,188,5); 
+$color_black: rgb(46,46,46);
+$color_white: rgb(255,255,255);
+
+$color-grey-dark: #333333;
+$background-default: $color-white;
+$color-grey-dusty: #666666;
+$color-yellow-pale: #fcb419;
+$color-grey-sliver: #cccccc;
+$color-yellow-light:#faf3e6;
+
+$color_mine_shaft: #333333;
+$color_river_bed: #404756;
+$color_bright_gray: #363C49;
+$color_grey: #999999;
+$color_dove_gray: #666666;
+$color_silver: #CCCCCC;
+$color_alto_gray: #D8D8D8;
+$color_alto: #CFCFCF;
+$color_catskill_white: #EEF1F6;
+$color_concrete: #F2F2F2;
+$color_champagne: #faf1cc;
+$color_alizarin_crimson: #E2221E;
+$color_corn: #E8AB00;
+$color_corn_pale: #E8BA00;
+$color_catalina_blue: #072691;
+$color_cerulean_blue: #265AC3;
+$color_dark_custom: #969696;
+$alpha: 0.2;
+
+$color_green_text_alpha: rgba($color_green_text, $alpha);
+$color_red_text_alpha: rgba($color_red_text, $alpha);
+$color_blue_logo_alpha: rgba($color_blue_logo, $alpha);
+$color_black_logo_alpha: rgba($color_black_logo, $alpha);
+
+// Color new amanpuri
+$color-cornflower-blue-light: #6195ED;
+$color-picton-blue: #4DB2EE;
+$color-mirage: #191F2B;
+$color-eden-dark: #0E454C;
+$color-eden: #12575F;
+$color-eden-border: #41787f;
+$color-eden-light: $color-eden;
+$color-jungle-green-light: #299b82;
+$color-jungle-green: #2DAC91;
+$color-jungle-green-2: $color-jungle-green-light;
+$color-red-main: #ff0000;
+$color-bright-gray: #ececec;
+$color-bright-gray-dark: #3C4049;
+$color-dark-blue: #edfcf8;
+$color-charade: #2B3038;
+$color-white-smoke: #f8f8f8;
+$color-denim: #f74940;
+$color-blue-hover: #2e9bdb;
+$color-blue-custom: #2e9bdb;
+
+$font-mini-3px: 3px;
+$font_mini_mini: 10px;
+$font_mini: 11px;
+$font-smaller: 12px;
+$font-small: 13px;
+$font_root: 14px;
+$font_medium: 15px;
+$font_semi_big: 16px;
+$font_big_17: 17px;
+$font_big: 18px;
+$font_big_19: 19px;
+$font_big_20: 20px;
+$font_big_21: 21px;
+$font_title_size_small: 22px;
+$font_big_23: 23px;
+$font_big_24: 24px;
+$font_title_size_small_25: 25px;
+$font_title_size_medium_small: 30px;
+$font_title_size_medium: 35px;
+$font_title_size_big: 40px;
+$font_title_size_big_small: 50px;
+
+$font-family-root: 'Arial', sans-serif;
+$font-family-roboto: 'Roboto-Regular', sans-serif;
+$font-family-roboto-bold: 'Roboto-Bold', sans-serif;
+$font-family-roboto-italic: 'Roboto-Italic', sans-serif;
+$font-family-roboto-semibold: 'Roboto-Light', sans-serif;
+$font-family-roboto-medium: 'Roboto-Medium', sans-serif;
+$font_family_default: $font_family_root;
+
+
+$border_thin: 1px solid $color_grey_border;
+$border_thin_light: 1px solid rgba($color_grey_border,0.5);
+
+$background_color_grey: $color_grey;
+$background_color_catskill_white: $color_catskill_white;
+$background_color_corn: $color_corn;
+$background_color_river_bed: $color_river_bed;
+$background_color_bright_gray: $color_bright_gray;
+$background_color_catalina_blue: $color_catalina_blue;
+$background_color_primary_message: #d2e4f1;
+$background_color_success_message: #dff0d4;
+$background_color_warning_message: #fcf8e1;
+$background_color_error_message: #f2dedc;
+
+$color_primary_text_message: #0ab9f3;
+$color_warning_text_message: #ff9800;
+
+$background_color_head_table: #c5d7e1;
+
+$color-blue-custom: #2e9bdb;
+$color-white: #ffffff;

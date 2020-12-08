@@ -1,0 +1,135 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp);@charset "UTF-8";
+
+//base
+$text-size-base: 14px;
+$border-radius-base: 4px;
+$text-base-color: #000000;
+$navar-band-text-size: 30px;
+$bar-height: 80px;
+$btn-primary-color: #fff;
+$btn-border-color: rgb(230, 230, 230);
+$error-color: #ff0000;
+//btn-register
+$text-color-register: white;
+$btn-color-register: #717171;
+$btn-color-hover: #565656;
+
+@mixin background-cache-bust($url) {
+  background-image: unquote('url(' + $url + '?v=' + unique_id() + ')');
+}
+
+@mixin btn-custom($height, $width, $borderColor) {
+  height: $height;
+  width: $width;
+  line-height: $height;
+  font-size: $text-size-base;
+  background: transparent;
+  border: 1px solid $borderColor;
+  border-radius: $border-radius-base;
+  color: white;
+}
+
+// default style element
+*{
+  font-family: "Roboto", sans-serif;
+}
+
+@media only screen and (max-height: 800px) {
+  .wrapper_auth_responsive {
+    position: relative;
+    min-height: 800px;
+    #footer_auth
+    {
+       position: absolute !important;
+    }
+  }
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: rgb(236, 244, 249);
+}
+
+// font color
+.fo-black{
+  color: #000
+}
+.fo-blue-black{
+  color: #172e55;
+}
+.fo-bold{
+  font-weight: bold;
+}
+.fo_green{
+  color: #268500;
+}
+a{
+  text-decoration: none;
+}
+
+// display
+.f-lf{
+  float: left;
+}
+.f-fr{
+  float: right;
+}
+
+//COMMON
+
+//ERROR
+.error-block{
+  color: $error-color;
+}
+
+// Checkbox
+.form-checkbox {
+  input[type="checkbox"] {
+    display: none;
+  }
+  .checkbox {
+    margin-top: 0px;
+    display: inline-block;
+    font-size: 13px;
+    margin-bottom: 0px;
+    span {
+      position: relative;
+      content: "";
+      display: inline-block;
+      border: 1px solid #bfbfbf;
+      width: 16px;
+      height: 16px;
+      top: 3px;
+      left: 8px;
+      border-radius: 2px;
+      margin-right: 8px;
+      position: relative;
+      background-color: white;
+    }
+    input:checked {
+      & + span{
+        &:after{
+          opacity: 0.9;
+          content: '';
+          position: absolute;
+          width: 14px;
+          height: 7px;
+          background: transparent;
+          top: 2px;
+          left: 0px;
+          border: 3px solid #333;
+          border-top: none;
+          border-right: none;
+          transform: rotate(-45deg);
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          -o-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+        }
+      }
+    }
+  }
+}

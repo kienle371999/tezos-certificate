@@ -1,0 +1,86 @@
+.register {
+  &.form-checkbox{
+    margin-bottom: 5px;
+    .checkbox{
+      color: #172e55;
+      font-size: 14px;
+      font-weight: normal;
+      margin-bottom: 0px;
+      padding-left: 0;
+      text-transform: none;
+      top: -8px;
+      span {
+        position: relative;
+        content: "";
+        display: inline-block;
+        border: 1px solid #bfbfbf;
+        width: 20px;
+        height: 21px;
+        top: 5px;
+        left: 2px;
+        border-radius: 2px;
+        margin-right: 8px;
+        background-color: white;
+        &:after {
+          width: 16px;
+          height: 9px;
+          top: 2px;
+          left: 1px;;
+        }
+      }
+    }
+  }
+}
+.float-right{
+    text-align: right !important;
+}
+.form-group {
+  .registered{
+    text-align: right;
+  }
+  .error-block{
+    display: block;
+    margin-top: 6px;
+  }
+  .term{
+    text-transform: none !important;
+    width: 100%;
+    margin-bottom: 0 !important;
+  }
+}
+.register-success{
+  margin: 20px;
+  text-align: left;
+  .messageBox-title{
+    font-size: 16px;
+    color: #333;
+    margin: 0 auto 50px;
+    position: relative;
+  }
+  .ng-binding{
+    padding: 0 30px;
+    background: #fff;
+    position: relative;
+    z-index: 99;
+    left: 50%;
+    margin-left: -82px;
+  }
+  .follow{
+    margin: 0;
+  }
+  .messageBox-tip{
+    border-top: 1px solid #e6e6e6;
+    text-align: left;
+    margin-top: 12px;
+    padding-top: 18px;
+    font-size: 12px;
+    color: #999;
+  }
+}
+.resend_email{
+  padding-top: 50px;
+  font-size: 18px;
+  color: #333;
+  margin: 0 auto 50px;
+  position: relative;
+} 

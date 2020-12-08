@@ -1,0 +1,35 @@
+@import './admin-lte';
+@import './all-skins';
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import "../variables";
+@import '../icommon.scss';
+@import "../barlowsemibold.scss";
+@import "../barlowmedium.scss";
+@import "../barlowbold.scss";
+@import "../roboto-bold.scss";
+@import "../roboto-italic.scss";
+@import "../roboto-light.scss";
+@import "../roboto-medium.scss";
+@import "../roboto-regular.scss";
+
+button{
+  background-color: $color_white;
+  border: 1px solid $color_grey_border;
+
+}
+button{
+  &:active,&:hover {
+    background-color: $color_blue_logo;
+    color: $color_white;
+  }
+}
+
+.pagination {
+	.page-prev, .page-next {
+		a {
+		    width: 97px !important;
+		    min-width: 97px !important;
+		    border-radius: 0 !important;
+		}
+	}
+}
