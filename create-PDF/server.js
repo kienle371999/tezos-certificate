@@ -38,21 +38,22 @@ app.post('/api/create-certificate-pdf', authenJWT, async (req, res) => {
     try {
       cli.init(data)
       await cli.generate()
-      return res.status(200).send({ message: "Successfully create PDF" })
+      return res.status(200).json({ message: "Successfully create PDF" })
     }
     catch(error) {
-      return res.status(400).send(error.message)
+      return res.status(400).json({ error: error.message })
     }
 })
 
 app.post('/api/send-mail-certificate', authenJWT, async (req, res) => {
     const params = req.body
+    console.log("params", params)
     try {
       await cli.sendMailCertificate(params)
-      return res.status(200).send({ message: "Successfully send email to beneficiary" })
+      return res.status(200).json({ message: "Successfully send email to beneficiary" })
     }
     catch(error) {
-      return res.status(400).send(error.message)
+      return res.status(400).json({ error: error.message})
     }
 })
 

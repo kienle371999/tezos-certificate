@@ -98,6 +98,7 @@
     color: #FFFFFF;
     font-size: 17px;
     border-radius: 3px;
+    margin-left: -4px;
     position: relative;
     cursor: pointer;
   }

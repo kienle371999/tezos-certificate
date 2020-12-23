@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .modal-mask {
   font-family: Arial, Helvetica, sans-serif;
   position: fixed;
@@ -122,6 +122,7 @@ export default {
   border-radius: 3px;
   padding: 12px 15px;
   margin-bottom: 10px;
+  margin-left: 0px;
   background-color: #f3f4f5;
   border: solid 1px rgba(3,21,50,0.13);
   box-sizing: border-box;
