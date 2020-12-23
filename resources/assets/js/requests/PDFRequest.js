@@ -6,8 +6,12 @@ class PDFRequest extends BaseRequest {
         return baseUrl.concat(url)
     }
     async createCertificatePDF(params) {
-        console.log("PDFRequest -> createCertificatePDF -> params", params)
         const url = this.getURL('/api/create-certificate-pdf')
+        return this.post(url, params)
+    }
+
+    async sendCertificateByMail(params) {
+        const url = this.getURL('/api/send-mail-certificate')
         return this.post(url, params)
     }
 }

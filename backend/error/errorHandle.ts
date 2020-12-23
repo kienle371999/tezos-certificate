@@ -5,8 +5,9 @@ export const Unauthorized = (reason?) => {
         data: {
             error: reason || "Unauthorized"
         }
-    };
-};
+    }
+}
+
 export const BadRequest = (reason?) => {
     return {
         success: false,
@@ -14,8 +15,9 @@ export const BadRequest = (reason?) => {
         data: {
             error: reason || "Bad Request"
         }
-    };
-};
+    }
+}
+
 export const NotFound = (reason?) => {
     return {
         success: false,
@@ -23,8 +25,9 @@ export const NotFound = (reason?) => {
         data: {
             error: reason || "Not Found"
         }
-    };
-};
+    }
+}
+
 export const Forbidden = (reason?) => {
     return {
         success: false,
@@ -32,8 +35,9 @@ export const Forbidden = (reason?) => {
         data: {
             error: reason || "Forbidden"
         }
-    };
-};
+    }
+}
+
 export const ServerError = (reason?) => {
     return {
         success: false,
@@ -41,8 +45,9 @@ export const ServerError = (reason?) => {
         data: {
             error: reason || "Internal Server Error"
         }
-    };
-};
+    }
+}
+
 export const TooMany = (reason?) => {
     return {
         success: false,
@@ -50,13 +55,14 @@ export const TooMany = (reason?) => {
         data: {
             error: reason || "Too many requests"
         }
-    };
-};
+    }
+}
+
 export const Success = (data?) => {
     return {
         success: true,
         code: 200,
         data
-    };
-};
+    }
+}
   

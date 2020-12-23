@@ -33,7 +33,8 @@
     methods: {
       async getKey() {
         const validKey = await BlockchainRequest.generateKey()
-        this.neededKey = Object.assign({ privateKey: validKey.secretKey,
+        console.log("getKey -> validKey", validKey)
+        this.neededKey = Object.assign({ privateKey: validKey.privateKey,
                                         publicKey: validKey.publicKey,
                                         publicKeyHash: validKey.publicKeyHash })
         this.getDisabled = true
