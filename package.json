@@ -35,7 +35,7 @@
     "@adonisjs/validator": "^5.0.6",
     "@nuxtjs/auth-next": "^5.0.0-1595976864.509d9d6",
     "adonis-validator": "^1.0.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap-sass": "^3.4.1",
     "browser-cookies": "^1.2.0",
     "core-js": "^3.6.5",
