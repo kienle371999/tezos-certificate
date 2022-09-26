@@ -27,7 +27,7 @@
     "nodemailer-smtp-transport": "^2.7.4",
     "npm": "^1.4.7",
     "phantomjs": "^2.1.7",
-    "pm2": "^4.4.0",
+    "pm2": "^5.2.0",
     "promisify-child-process": "^4.1.1",
     "shelljs": "^0.2.6",
     "slug": "^0.4.2",
